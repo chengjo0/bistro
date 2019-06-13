@@ -11,7 +11,7 @@ const Header = () => {
 
   React.useEffect(() => {
     window.addEventListener('scroll', () => {
-      setHeaderOpacity(window.pageYOffset / 300)
+      setHeaderOpacity(window.pageYOffset / window.innerHeight)
     })
   })
 

@@ -9,12 +9,6 @@ interface Props {
 export default (props: Props) => (
   <div>
     <Header />
-    <div
-      style={{
-        margin: `${rem(8)} ${rem(16)}`,
-      }}
-    >
-      {props.children}
-    </div>
+    <div>{props.children}</div>
   </div>
 )
