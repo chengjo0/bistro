@@ -5,7 +5,10 @@ import * as React from 'react'
 import { style } from 'typestyle'
 import * as Theme from '../theme'
 
-const opacityOffsetLimit = window.innerHeight / 2
+// const opacityOffsetLimit = window.innerWidth
+const opacityOffsetLimit = (3 * window.innerHeight) / 4
+
+const maxWidth = 960
 
 const childrenNodes = [
   <Link to="/" className="link">
@@ -18,13 +21,7 @@ const childrenNodes = [
     <h3>Contact</h3>
   </Link>,
   <Link to="/contact/">
-    <h3>Contact2</h3>
-  </Link>,
-  <Link to="/contact/">
-    <h3>Contact3</h3>
-  </Link>,
-  <Link to="/contact/">
-    <h3>Contact4</h3>
+    <h3>Menu</h3>
   </Link>,
 ]
 
@@ -48,16 +45,14 @@ const Header = () => {
         background: Theme.Colors.purple.fade(headerOpacity).toString(),
       })}
     >
-      {window.innerWidth > 500 ? null : (
+      {window.innerWidth > maxWidth ? null : (
         <div
           className={style({
             ...csstips.vertical,
             ...csstips.centerCenter,
             position: 'absolute',
             top: px(0),
-            background: color('rgb(0, 0, 0)')
-              .fade(0.8)
-              .toString(),
+            background: Theme.Colors.purple.fade(0.8).toString(),
             width: percent(100),
             height: openMenu ? window.innerHeight : 0,
             transition: 'height .2s ease-in',
@@ -77,37 +72,84 @@ const Header = () => {
       )}
       <div
         className={style({
-          ...csstips.margin(rem(0), rem(window.innerWidth < 500 ? 1 : 16)),
+          ...csstips.margin(
+            rem(0),
+            rem(window.innerWidth <= maxWidth ? 1 : 16)
+          ),
           ...csstips.horizontal,
           ...csstips.center,
           ...csstips.betweenJustified,
           height: percent(100),
+          $nest: {
+            a: {
+              textDecoration: 'none',
+            },
+            'a h3': {
+              marginBottom: rem(0),
+            },
+          },
         })}
       >
         <Link to="/">
-          <h3>Bistro d'Asie</h3>
+          <div
+            className={style({
+              background: Theme.Colors.purple
+                .fade(1 - headerOpacity)
+                .toString(),
+              ...csstips.padding(rem(1), rem(1.5)),
+              borderRadius: rem(2.5),
+              color: Theme.Colors.gold.toString(),
+              $nest: {
+                h2: {
+                  marginBottom: rem(0),
+                },
+              },
+            })}
+          >
+            <h2>Bistro d'Asie</h2>
+          </div>
         </Link>
         <div
           className={style({
             ...csstips.horizontal,
             ...csstips.horizontallySpaced(rem(2)),
+            $nest: {
+              a: {
+                ...csstips.centerCenter,
+                background: Theme.Colors.purple
+                  .fade(1 - headerOpacity)
+                  .toString(),
+                ...csstips.padding(rem(1), rem(1.5)),
+                borderRadius: rem(2.5),
+                color: Theme.Colors.gold.toString(),
+                minWidth: rem(8),
+                $nest: {
+                  h3: {
+                    marginBottom: rem(0),
+                  },
+                },
+              },
+            },
           })}
         >
-          {window.innerWidth < 500 ? null : childrenNodes.map(node => node)}
-          <div
-            className={style({
-              ...csstips.centerCenter,
-              backgroundColor: 'red',
-              height: rem(2),
-              width: rem(2),
-              borderRadius: percent(50),
-            })}
-            onClick={() => {
-              setOpenMenu(!openMenu)
-            }}
-          >
-            x
-          </div>
+          {window.innerWidth <= maxWidth ? (
+            <div
+              className={style({
+                ...csstips.centerCenter,
+                backgroundColor: 'red',
+                height: rem(2),
+                width: rem(2),
+                borderRadius: percent(50),
+              })}
+              onClick={() => {
+                setOpenMenu(!openMenu)
+              }}
+            >
+              x
+            </div>
+          ) : (
+            childrenNodes.map(node => node)
+          )}
         </div>
       </div>
     </header>

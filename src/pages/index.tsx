@@ -1,4 +1,4 @@
-import { percent, px } from 'csx'
+import { percent } from 'csx'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
@@ -9,7 +9,8 @@ export default () => (
       src="hero.jpg"
       alt="hero"
       className={style({
-        height: window.innerHeight / 2,
+        // height: window.innerWidth,
+        height: (3 * window.innerHeight) / 4,
         width: percent(100),
       })}
     />

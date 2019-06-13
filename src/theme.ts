@@ -6,5 +6,5 @@ const Colors = {
   gold: color('#d0b084'),
   taupe: color('#CEC5B6'),
 }
-// BodoniMTCondensed
+
 export { Colors }
