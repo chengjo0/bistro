@@ -1,10 +1,9 @@
 import * as csstips from 'csstips'
-import { color, percent, px, rem, scale } from 'csx'
+import { color, percent, px, rem } from 'csx'
 import { Link } from 'gatsby'
 import * as React from 'react'
 import { style } from 'typestyle'
-
-const bg = color('rgb(255, 255, 24)')
+import * as Theme from '../theme'
 
 const opacityOffsetLimit = window.innerHeight / 2
 
@@ -46,7 +45,7 @@ const Header = () => {
         top: px(0),
         height: rem(6),
         width: percent(100),
-        background: bg.fade(headerOpacity).toString(),
+        background: Theme.Colors.purple.fade(headerOpacity).toString(),
       })}
     >
       {window.innerWidth > 500 ? null : (
