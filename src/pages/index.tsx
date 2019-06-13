@@ -9,7 +9,7 @@ export default () => (
       src="hero.jpg"
       alt="hero"
       className={style({
-        height: window.innerHeight,
+        height: window.innerHeight / 2,
         width: percent(100),
       })}
     />
