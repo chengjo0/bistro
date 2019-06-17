@@ -1,5 +1,5 @@
 import * as csstips from 'csstips'
-import { color, percent, px, rem } from 'csx'
+import { percent, px, rem } from 'csx'
 import { Link } from 'gatsby'
 import * as React from 'react'
 import { style } from 'typestyle'
@@ -29,10 +29,16 @@ const Header = () => {
   const [headerOpacity, setHeaderOpacity] = React.useState(0)
   const [openMenu, setOpenMenu] = React.useState(false)
 
+  const scrollListener = () => {
+    setHeaderOpacity(window.pageYOffset / opacityOffsetLimit)
+  }
+
   React.useEffect(() => {
-    window.addEventListener('scroll', () => {
-      setHeaderOpacity(window.pageYOffset / opacityOffsetLimit)
-    })
+    window.addEventListener('scroll', scrollListener)
+
+    return function cleanup() {
+      window.removeEventListener('scroll', scrollListener)
+    }
   })
 
   return (
