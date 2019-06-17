@@ -1,4 +1,5 @@
-import { percent } from 'csx'
+import * as csstips from 'csstips'
+import { percent, rem } from 'csx'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
@@ -14,7 +15,12 @@ export default () => (
         width: percent(100),
       })}
     />
-    <div style={{ textAlign: `justify` }}>
+    <div
+      className={style({
+        ...csstips.padding(rem(0), rem(30)),
+        textAlign: 'justify',
+      })}
+    >
       Hello world! Lorem Ipsum is simply dummy text of the printing and
       typesetting industry. Lorem Ipsum has been the industry's standard dummy
       text ever since the 1500s, when an unknown printer took a galley of type
