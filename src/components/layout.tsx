@@ -1,5 +1,6 @@
-import { rem } from 'csx'
+import { px } from 'csx'
 import * as React from 'react'
+import { style } from 'typestyle'
 import Header from './header'
 
 interface Props {
@@ -9,6 +10,18 @@ interface Props {
 export default (props: Props) => (
   <div>
     <Header />
-    <div>{props.children}</div>
+    <div
+      className={style({
+        display: 'grid',
+        gridTemplateColumns: `${px(25)} auto ${px(25)}`,
+        $nest: {
+          '@media screen and (min-width: 500px)': {
+            gridTemplateColumns: `${px(250)} auto ${px(250)}`,
+          },
+        },
+      })}
+    >
+      {props.children}
+    </div>
   </div>
 )

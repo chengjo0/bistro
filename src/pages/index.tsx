@@ -1,5 +1,3 @@
-import * as csstips from 'csstips'
-import { percent, rem } from 'csx'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
@@ -10,14 +8,14 @@ export default () => (
       src="hero.jpg"
       alt="hero"
       className={style({
-        // height: window.innerWidth,
-        height: (3 * window.innerHeight) / 4,
-        width: percent(100),
+        gridColumnStart: '1',
+        gridColumnEnd: '4',
       })}
     />
     <div
       className={style({
-        ...csstips.padding(rem(0), rem(30)),
+        gridColumnStart: '2',
+        gridColumnEnd: '3',
         textAlign: 'justify',
       })}
     >
