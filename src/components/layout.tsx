@@ -1,4 +1,4 @@
-import { px, rem, percent } from 'csx'
+import { px, rem } from 'csx'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Header from './header'
