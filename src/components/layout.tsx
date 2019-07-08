@@ -1,4 +1,4 @@
-import { px } from 'csx'
+import { px, rem, percent } from 'csx'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Header from './header'
@@ -14,9 +14,11 @@ export default (props: Props) => (
       className={style({
         display: 'grid',
         gridTemplateColumns: `${px(25)} auto ${px(25)}`,
+        paddingTop: rem(3),
         $nest: {
           '@media screen and (min-width: 500px)': {
             gridTemplateColumns: `${px(250)} auto ${px(250)}`,
+            paddingTop: rem(6),
           },
         },
       })}

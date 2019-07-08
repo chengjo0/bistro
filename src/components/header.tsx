@@ -7,7 +7,7 @@ import * as Theme from '../theme'
 
 const childrenNodes = [
   <Link to="/">
-    <h3>Home</h3>
+    <h3>Bistro d'Asie</h3>
   </Link>,
   <Link to="/about/">
     <h3>About</h3>
@@ -29,14 +29,33 @@ const Header = () => {
         ...csstips.horizontal,
         position: 'fixed',
         top: px(0),
-        height: rem(6),
+        height: rem(3),
         width: percent(100),
         background: Theme.Colors.purple.fade(0.9).toString(),
-        paddingLeft: px(250),
-        paddingRight: px(250),
+        paddingLeft: px(25),
+        paddingRight: px(25),
+        $nest: {
+          '@media screen and (min-width: 500px)': {
+            height: rem(6),
+            paddingLeft: px(250),
+            paddingRight: px(250),
+          },
+        },
       })}
     >
-      {childrenNodes.map(node => node)}
+      {window.innerWidth < 500 ? (
+        <Link
+          to="/"
+          className={style({
+            textDecoration: 'none',
+            color: Theme.Colors.gold.toString(),
+          })}
+        >
+          <span>Bistro d'Asie</span>
+        </Link>
+      ) : (
+        childrenNodes.map(node => node)
+      )}
     </header>
   )
 }
