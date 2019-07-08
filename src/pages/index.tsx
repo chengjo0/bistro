@@ -11,6 +11,8 @@ export default () => (
       alt="hero"
       className={style({
         gridColumn: '1 / 4',
+        maxHeight: (2 / 3) * window.innerHeight,
+        width: percent(100),
       })}
     />
     <div
@@ -44,6 +46,9 @@ export default () => (
             '&>h4': {
               marginBottom: rem(1),
             },
+            '&>div>span': {
+              fontWeight: 'bold',
+            },
             '&>div:last-child': {
               paddingTop: rem(0.5),
             },
@@ -51,11 +56,18 @@ export default () => (
         })}
       >
         <h4>Opening hours</h4>
-        <div>Tues - Sat : 11:30 - 14:00 / 17:30 - 21:00</div>
-        <div>Sun : 11:30 - 14:00</div>
-        <div>Mon : Closed</div>
+        <div>
+          <span>Tues - Sat :</span> 11:30 - 14:00 / 17:30 - 21:00
+        </div>
+        <div>
+          <span>Sun :</span> 11:30 - 14:00
+        </div>
+        <div>
+          <span>Mon :</span> Closed
+        </div>
         <div>+33 4 50 70 10 48</div>
       </div>
+      <div>content</div>
     </div>
   </Layout>
 )
