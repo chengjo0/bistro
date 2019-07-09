@@ -1,5 +1,5 @@
 import * as csstips from 'csstips'
-import { percent, rem, px } from 'csx'
+import { percent, px, rem } from 'csx'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
