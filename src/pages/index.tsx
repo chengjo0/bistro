@@ -11,7 +11,7 @@ export default () => (
       alt="hero"
       className={style({
         gridColumn: '1 / 4',
-        maxHeight: (2 / 3) * window.innerHeight,
+        maxHeight: rem(50),
         width: percent(100),
       })}
     />
