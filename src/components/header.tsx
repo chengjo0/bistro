@@ -43,19 +43,15 @@ const Header = () => {
         },
       })}
     >
-      {window.innerWidth < 500 ? (
-        <Link
-          to="/"
-          className={style({
-            textDecoration: 'none',
-            color: Theme.Colors.gold.toString(),
-          })}
-        >
-          <span>Bistro d'Asie</span>
-        </Link>
-      ) : (
-        childrenNodes.map(node => node)
-      )}
+      <Link
+        to="/"
+        className={style({
+          textDecoration: 'none',
+          color: Theme.Colors.gold.toString(),
+        })}
+      >
+        <span>Bistro d'Asie</span>
+      </Link>
     </header>
   )
 }
