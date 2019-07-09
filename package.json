@@ -38,10 +38,5 @@
   },
   "bugs": {
     "url": "https://github.com/chengjo0/bistro/issues"
-  },
-  "optionalDependencies": {
-    "@types/axios": "^0.14.0",
-    "axios": "^0.19.0",
-    "contentful": "^7.8.1"
   }
 }
