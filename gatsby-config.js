@@ -8,8 +8,18 @@ require('dotenv').config({
 })
 
 module.exports = {
+  siteMetadata: {
+    title: `Bistro d'Asie`,
+    titleTemplate: '%s · Cuisine Fusion',
+    description: 'Restaurant website',
+    url: 'https://bistrodasie.com',
+    languages: {
+      defaultLangKey: 'fr',
+      langs: ['fr', 'en-US'],
+    },
+  },
   plugins: [
-    `gatsby-plugin-typescript`,
+    'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
     'gatsby-transformer-remark',
     {
@@ -17,6 +27,13 @@ module.exports = {
       options: {
         spaceId: process.env.GATSBY_SPACE_ID,
         accessToken: process.env.GATSBY_ACCESS_TOKEN,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-i18n',
+      options: {
+        langKeyDefault: 'fr',
+        useLangKeyLayout: false,
       },
     },
   ],
