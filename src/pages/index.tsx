@@ -3,142 +3,216 @@ import { percent, px, rem } from 'csx'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
+import { graphql } from 'gatsby'
+import Helmet from 'react-helmet'
 
-export default () => (
-  <Layout>
-    <img
-      src="hero.jpg"
-      alt="hero"
-      className={style({
-        gridColumn: '1 / 4',
-        maxHeight: rem(50),
-        width: percent(100),
-      })}
-    />
-    <div
-      className={style({
-        gridColumn: '2 / 3',
-        gridRowStart: '2',
-        textAlign: 'justify',
-        paddingBottom: rem(2),
-        ...csstips.verticallySpaced(rem(2)),
-      })}
-    >
+interface Props {
+  data: {
+    allContentfulHorairesDouverture: {
+      edges: Array<{
+        node: {
+          openingHour: Array<{
+            isOpenForLunch: Boolean
+            isOpenForDinner: Boolean
+            period: String
+            lunchOpeningTime: String
+            lunchClosingTime: String
+            dinnerOpeningTime: String
+            dinnerClosingTime: String
+          }>
+        }
+      }>
+    }
+    allContentfulInformations: {
+      edges: Array<{
+        node: {
+          name: String
+          phone: String
+          address: String
+        }
+      }>
+    }
+  }
+}
+
+export default function Home({ data }: Props) {
+  return (
+    <Layout>
+      <Helmet>
+        <title>
+          {data.allContentfulInformations.edges[0].node.name} | Home
+        </title>
+      </Helmet>
+      <img
+        src="hero.jpg"
+        alt="hero"
+        className={style({
+          gridColumn: '1 / 4',
+          maxHeight: rem(50),
+          width: percent(100),
+        })}
+      />
       <div
         className={style({
-          ...csstips.vertical,
-          $nest: {
-            '&>h1': {
-              marginBottom: rem(1),
-            },
-            '&>div>span': {
-              fontWeight: 'bold',
-            },
-            '&>div:last-child': {
-              paddingTop: rem(0.5),
-            },
-          },
+          gridColumn: '2 / 3',
+          gridRowStart: '2',
+          textAlign: 'justify',
+          paddingBottom: rem(2),
+          ...csstips.verticallySpaced(rem(2)),
         })}
       >
-        <h1>Opening hours</h1>
-        <div>
-          <span>Tues - Sat :</span> 11:30 - 14:00 / 17:30 - 21:00
-        </div>
-        <div>
-          <span>Sun :</span> 11:30 - 14:00
-        </div>
-        <div>
-          <span>Mon :</span> Closed
-        </div>
-        <div>
-          <div>+33 4 50 70 10 48</div>
-          <div>1A avenue du Leman, 74200 Thonon-les-Bains</div>
-        </div>
-      </div>
-      <div
-        className={style({
-          display: 'grid',
-          gridTemplateRows: `75% 25%`,
-          height: rem(15),
-        })}
-      >
-        <img
-          src="hero.jpg"
-          alt="hero"
-          className={style({
-            height: percent(100),
-            width: percent(100),
-          })}
-        />
         <div
           className={style({
-            ...csstips.horizontal,
-            ...csstips.centerCenter,
-            borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
-            borderStyle: 'solid',
-            borderBottomLeftRadius: px(3),
-            borderBottomRightRadius: px(3),
+            ...csstips.vertical,
+            $nest: {
+              '&>h1': {
+                marginBottom: rem(1),
+              },
+              '&>div>span': {
+                fontWeight: 'bold',
+              },
+              '&>div:last-child': {
+                paddingTop: rem(0.5),
+              },
+            },
           })}
         >
-          Menu
+          <h1>Horaires:</h1>
+          {data.allContentfulHorairesDouverture.edges[0].node.openingHour.map(
+            openingHours => (
+              <div key={String(openingHours.period)}>
+                <span>{openingHours.period}: </span>
+                {openingHours.isOpenForLunch
+                  ? `${openingHours.lunchOpeningTime} - ${
+                      openingHours.lunchClosingTime
+                    } ${
+                      openingHours.isOpenForDinner
+                        ? ` / ${openingHours.dinnerOpeningTime} - ${openingHours.dinnerClosingTime}`
+                        : ''
+                    }`
+                  : `fermé`}
+              </div>
+            )
+          )}
+          <div>
+            <div>{data.allContentfulInformations.edges[0].node.phone}</div>
+            <div>{data.allContentfulInformations.edges[0].node.address}</div>
+          </div>
         </div>
-      </div>
-      <div
-        className={style({
-          display: 'grid',
-          gridTemplateRows: `75% 25%`,
-          height: rem(15),
-        })}
-      >
-        <img
-          src="hero.jpg"
-          alt="hero"
-          className={style({
-            height: percent(100),
-            width: percent(100),
-          })}
-        />
         <div
           className={style({
-            ...csstips.horizontal,
-            ...csstips.centerCenter,
-            borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
-            borderStyle: 'solid',
-            borderBottomLeftRadius: px(3),
-            borderBottomRightRadius: px(3),
+            display: 'grid',
+            gridTemplateRows: `75% 25%`,
+            height: rem(15),
           })}
         >
-          Starters
+          <img
+            src="hero.jpg"
+            alt="hero"
+            className={style({
+              height: percent(100),
+              width: percent(100),
+            })}
+          />
+          <div
+            className={style({
+              ...csstips.horizontal,
+              ...csstips.centerCenter,
+              borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
+              borderStyle: 'solid',
+              borderBottomLeftRadius: px(3),
+              borderBottomRightRadius: px(3),
+            })}
+          >
+            Menu
+          </div>
         </div>
-      </div>
-      <div
-        className={style({
-          display: 'grid',
-          gridTemplateRows: `75% 25%`,
-          height: rem(15),
-        })}
-      >
-        <img
-          src="hero.jpg"
-          alt="hero"
-          className={style({
-            height: percent(100),
-            width: percent(100),
-          })}
-        />
         <div
           className={style({
-            ...csstips.horizontal,
-            ...csstips.centerCenter,
-            borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
-            borderStyle: 'solid',
-            borderBottomLeftRadius: px(3),
-            borderBottomRightRadius: px(3),
+            display: 'grid',
+            gridTemplateRows: `75% 25%`,
+            height: rem(15),
           })}
         >
-          Desserts
+          <img
+            src="hero.jpg"
+            alt="hero"
+            className={style({
+              height: percent(100),
+              width: percent(100),
+            })}
+          />
+          <div
+            className={style({
+              ...csstips.horizontal,
+              ...csstips.centerCenter,
+              borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
+              borderStyle: 'solid',
+              borderBottomLeftRadius: px(3),
+              borderBottomRightRadius: px(3),
+            })}
+          >
+            Starters
+          </div>
+        </div>
+        <div
+          className={style({
+            display: 'grid',
+            gridTemplateRows: `75% 25%`,
+            height: rem(15),
+          })}
+        >
+          <img
+            src="hero.jpg"
+            alt="hero"
+            className={style({
+              height: percent(100),
+              width: percent(100),
+            })}
+          />
+          <div
+            className={style({
+              ...csstips.horizontal,
+              ...csstips.centerCenter,
+              borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
+              borderStyle: 'solid',
+              borderBottomLeftRadius: px(3),
+              borderBottomRightRadius: px(3),
+            })}
+          >
+            Desserts
+          </div>
         </div>
       </div>
-    </div>
-  </Layout>
-)
+    </Layout>
+  )
+}
+
+export const query = graphql`
+  query MyQuery {
+    allContentfulHorairesDouverture(filter: { node_locale: { eq: "fr" } }) {
+      edges {
+        node {
+          openingHour {
+            dinnerClosingTime
+            dinnerOpeningTime
+            isOpenForLunch
+            isOpenForDinner
+            lunchClosingTime
+            lunchOpeningTime
+            period
+          }
+        }
+      }
+    }
+    allContentfulInformations(filter: { node_locale: { eq: "fr" } }) {
+      edges {
+        node {
+          address
+          name
+          phone
+        }
+      }
+    }
+  }
+`
