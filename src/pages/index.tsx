@@ -32,6 +32,22 @@ interface Props {
         }
       }>
     }
+    allContentfulPlat: {
+      edges: Array<{
+        node: {
+          picture: {
+            fluid: {
+              src: String
+            }
+          }
+        }
+      }>
+    }
+    contentfulAsset: {
+      fluid: {
+        src: String
+      }
+    }
   }
 }
 
@@ -44,7 +60,7 @@ export default function Home({ data }: Props) {
         </title>
       </Helmet>
       <img
-        src="hero.jpg"
+        src={String(data.contentfulAsset.fluid.src)}
         alt="hero"
         className={style({
           gridColumn: '1 / 4',
@@ -107,7 +123,7 @@ export default function Home({ data }: Props) {
           })}
         >
           <img
-            src="hero.jpg"
+            src={String(data.allContentfulPlat.edges[0].node.picture.fluid.src)}
             alt="hero"
             className={style({
               height: percent(100),
@@ -135,7 +151,7 @@ export default function Home({ data }: Props) {
           })}
         >
           <img
-            src="hero.jpg"
+            src={String(data.allContentfulPlat.edges[0].node.picture.fluid.src)}
             alt="hero"
             className={style({
               height: percent(100),
@@ -212,6 +228,23 @@ export const query = graphql`
           name
           phone
         }
+      }
+    }
+    allContentfulPlat(filter: { node_locale: { eq: "fr" } }) {
+      edges {
+        node {
+          description
+          picture {
+            fluid {
+              src
+            }
+          }
+        }
+      }
+    }
+    contentfulAsset(title: { eq: "Hero" }) {
+      fluid {
+        src
       }
     }
   }
