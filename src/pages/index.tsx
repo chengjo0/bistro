@@ -43,6 +43,11 @@ interface Props {
         }
       }>
     }
+    contentfulAsset: {
+      fluid: {
+        src: String
+      }
+    }
   }
 }
 
@@ -55,7 +60,7 @@ export default function Home({ data }: Props) {
         </title>
       </Helmet>
       <img
-        src="hero.jpg"
+        src={String(data.contentfulAsset.fluid.src)}
         alt="hero"
         className={style({
           gridColumn: '1 / 4',
@@ -235,6 +240,11 @@ export const query = graphql`
             }
           }
         }
+      }
+    }
+    contentfulAsset(title: { eq: "Hero" }) {
+      fluid {
+        src
       }
     }
   }
