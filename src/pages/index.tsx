@@ -4,6 +4,7 @@ import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
 import { graphql } from 'gatsby'
+import Helmet from 'react-helmet'
 
 interface Props {
   data: {
@@ -37,6 +38,11 @@ interface Props {
 export default function Home({ data }: Props) {
   return (
     <Layout>
+      <Helmet>
+        <title>
+          {data.allContentfulInformations.edges[0].node.name} | Home
+        </title>
+      </Helmet>
       <img
         src="hero.jpg"
         alt="hero"
