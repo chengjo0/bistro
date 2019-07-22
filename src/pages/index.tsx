@@ -32,6 +32,17 @@ interface Props {
         }
       }>
     }
+    allContentfulPlat: {
+      edges: Array<{
+        node: {
+          picture: {
+            fluid: {
+              src: String
+            }
+          }
+        }
+      }>
+    }
   }
 }
 
@@ -107,7 +118,7 @@ export default function Home({ data }: Props) {
           })}
         >
           <img
-            src="hero.jpg"
+            src={String(data.allContentfulPlat.edges[0].node.picture.fluid.src)}
             alt="hero"
             className={style({
               height: percent(100),
@@ -135,7 +146,7 @@ export default function Home({ data }: Props) {
           })}
         >
           <img
-            src="hero.jpg"
+            src={String(data.allContentfulPlat.edges[0].node.picture.fluid.src)}
             alt="hero"
             className={style({
               height: percent(100),
@@ -211,6 +222,18 @@ export const query = graphql`
           address
           name
           phone
+        }
+      }
+    }
+    allContentfulPlat(filter: { node_locale: { eq: "fr" } }) {
+      edges {
+        node {
+          description
+          picture {
+            fluid {
+              src
+            }
+          }
         }
       }
     }
