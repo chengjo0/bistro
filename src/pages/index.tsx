@@ -4,6 +4,7 @@ import { graphql } from 'gatsby'
 import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
+import { Colors } from '../theme'
 
 interface Props {
   data: {
@@ -28,24 +29,14 @@ interface Props {
           name: String
           phone: String
           address: String
-        }
-      }>
-    }
-    allContentfulPlat: {
-      edges: Array<{
-        node: {
-          picture: {
+          hero: Array<{
+            description: 'mobile' | 'browser'
             fluid: {
               src: String
             }
-          }
+          }>
         }
       }>
-    }
-    contentfulAsset: {
-      fluid: {
-        src: String
-      }
     }
   }
 }
@@ -62,9 +53,9 @@ export default function Home({ data }: Props) {
       <div
         className={style({
           display: 'grid',
-          height: percent(80),
-          gridTemplateColumns: 'auto 45%',
-          gridTemplateRows: 'auto 50px',
+          height: percent(90),
+          gridTemplateColumns: `auto ${percent(50)}`,
+          gridTemplateRows: `auto ${percent(15)}`,
           $nest: {
             '@media screen and (min-width: 500px)': {
               gridTemplateColumns: 'auto 40%',
@@ -74,51 +65,99 @@ export default function Home({ data }: Props) {
       >
         <div
           className={style({
-            ...csstips.flex,
-            gridColumn: '2/3',
-            gridRow: '1/2',
-            position: 'relative',
-            overflowX: 'hidden',
+            ...csstips.centerCenter,
+            ...csstips.vertical,
+            ...csstips.verticallySpaced(rem(1)),
+            gridColumn: '1/3',
+            gridRow: '1/3',
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${
+              data.allContentfulInformations.edges[0].node.hero.filter(
+                img => img.description === 'mobile'
+              )[0].fluid.src
+            }")`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            color: 'white',
+            $nest: {
+              '& > div:first-child': {
+                paddingBottom: rem(1),
+              },
+              '& > div:last-child': {
+                paddingTop: rem(5),
+              },
+              '@media screen and (min-width: 500px)': {
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${
+                  data.allContentfulInformations.edges[0].node.hero.filter(
+                    img => img.description === 'browser'
+                  )[0].fluid.src
+                }")`,
+              },
+            },
           })}
         >
-          <img
-            src="chinese.png"
-            alt="chinese"
+          <div>Horaires :</div>
+          {data.allContentfulHorairesDouverture.edges[0].node.openingHour.map(
+            openingHour => (
+              <div
+                key={`${openingHour.period}`}
+                className={style({
+                  ...csstips.horizontal,
+                  $nest: {
+                    '& > div:first-child': {
+                      paddingRight: rem(1),
+                    },
+                  },
+                })}
+              >
+                <div>{openingHour.period} :</div>
+                {!openingHour.lunchOpeningTime && true ? (
+                  <div>Fermé</div>
+                ) : openingHour.lunchOpeningTime &&
+                  openingHour.lunchClosingTime ? (
+                  <div>
+                    {openingHour.lunchOpeningTime} -{' '}
+                    {openingHour.lunchClosingTime}
+                  </div>
+                ) : (
+                  ''
+                )}
+                {openingHour.dinnerOpeningTime &&
+                openingHour.dinnerClosingTime ? (
+                  <div>
+                    &nbsp;/&nbsp;{openingHour.dinnerOpeningTime} -{' '}
+                    {openingHour.dinnerClosingTime}
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+            )
+          )}
+          <div
             className={style({
-              position: 'absolute',
-              right: rem(-1),
-              top: rem(6),
-              height: percent(50),
-              animationName: keyframes({
-                '0%': { opacity: 0 },
-                '100%': { opacity: 1 },
-              }),
-              animationDuration: '1s',
-              animationTimingFunction: 'ease-in',
+              ...csstips.centerCenter,
+              ...csstips.vertical,
+              ...csstips.verticallySpaced(rem(1)),
               $nest: {
-                '@media screen and (min-width: 500px)': {
-                  top: rem(8),
+                '& > a': {
+                  textDecoration: 'none',
+                  color: 'white',
                 },
               },
             })}
-          />
-        </div>
-        <div
-          className={style({
-            ...csstips.centerCenter,
-            gridColumn: '1/2',
-          })}
-        >
-          <div
-            className={style({
-              animationName: keyframes({
-                '0%': { opacity: 0 },
-                '100%': { opacity: 1 },
-              }),
-              animationDuration: '2s',
-              animationTimingFunction: 'ease-in',
-            })}
-          ></div>
+          >
+            <a
+              href={`geo://?q=${data.allContentfulInformations.edges[0].node.address}`}
+            >
+              {data.allContentfulInformations.edges[0].node.address}
+            </a>
+            <a
+              href={`tel:${data.allContentfulInformations.edges[0].node.phone}`}
+            >
+              {data.allContentfulInformations.edges[0].node.phone}
+            </a>
+          </div>
         </div>
         <div
           className={style({
@@ -135,7 +174,8 @@ export default function Home({ data }: Props) {
             className={classes(
               'fas fa-angle-double-down',
               style({
-                fontSize: rem(2),
+                fontSize: rem(3),
+                color: Colors.gold.toString(),
               })
             )}
           ></i>
@@ -161,8 +201,6 @@ export const query = graphql`
           openingHour {
             dinnerClosingTime
             dinnerOpeningTime
-            isOpenForLunch
-            isOpenForDinner
             lunchClosingTime
             lunchOpeningTime
             period
@@ -176,24 +214,13 @@ export const query = graphql`
           address
           name
           phone
-        }
-      }
-    }
-    allContentfulPlat(filter: { node_locale: { eq: "fr" } }) {
-      edges {
-        node {
-          description
-          picture {
+          hero {
             fluid {
               src
             }
+            description
           }
         }
-      }
-    }
-    contentfulAsset(title: { eq: "Hero" }) {
-      fluid {
-        src
       }
     }
   }
