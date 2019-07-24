@@ -1,10 +1,10 @@
 import * as csstips from 'csstips'
-import { percent, px, rem } from 'csx'
-import * as React from 'react'
-import { style } from 'typestyle'
-import Layout from '../components/layout'
+import { deg, px, rem, rotate } from 'csx'
 import { graphql } from 'gatsby'
+import * as React from 'react'
 import Helmet from 'react-helmet'
+import { keyframes, style } from 'typestyle'
+import Layout from '../components/layout'
 
 interface Props {
   data: {
@@ -51,15 +51,90 @@ interface Props {
   }
 }
 
+const pulse = keyframes({
+  '0%': { opacity: 0 },
+  '50%': { opacity: 1 },
+  '100%': { opacity: 0 },
+})
+
 export default function Home({ data }: Props) {
   return (
     <Layout>
       <Helmet>
         <title>
-          {data.allContentfulInformations.edges[0].node.name} | Home
+          {data.allContentfulInformations.edges[0].node.name} | Welcome
         </title>
+        <link rel="stylesheet" href="animate.min.css"></link>
       </Helmet>
-      <img
+      <div
+        className={style({
+          ...csstips.vertical,
+          ...csstips.centerCenter,
+          gridColumn: '2 / 3',
+          textAlign: 'justify',
+          marginTop: rem(3),
+          paddingBottom: rem(2),
+        })}
+      >
+        <div
+          className={style({
+            ...csstips.flex,
+            ...csstips.centerCenter,
+            animationName: keyframes({
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 },
+            }),
+            animationDuration: '1s',
+            animationTimingFunction: 'ease-in',
+          })}
+        >
+          Welcome
+        </div>
+        <span
+          className={style({
+            animationName: pulse,
+            animationDuration: '3s',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in',
+            position: 'relative',
+            $nest: {
+              '&::before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: rem(-2),
+                left: rem(-1.1),
+                height: rem(3),
+                width: px(3),
+                borderRadius: px(2),
+                backgroundColor: 'black',
+                transform: rotate(deg(-45)),
+              },
+              '&::after': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: rem(-2),
+                right: rem(-1.1),
+                height: rem(3),
+                width: px(3),
+                borderRadius: px(2),
+                backgroundColor: 'black',
+                transform: rotate(deg(45)),
+              },
+            },
+          })}
+        ></span>
+      </div>
+      <div
+        className={style({
+          gridColumn: '2 / 3',
+          backgroundColor: 'red',
+        })}
+      >
+        and then...
+      </div>
+      {/* <img
         src={String(data.contentfulAsset.fluid.src)}
         alt="hero"
         className={style({
@@ -199,7 +274,7 @@ export default function Home({ data }: Props) {
             Desserts
           </div>
         </div>
-      </div>
+      </div> */}
     </Layout>
   )
 }
