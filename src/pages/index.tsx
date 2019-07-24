@@ -61,57 +61,62 @@ export default function Home({ data }: Props) {
     <Layout pageName="Welcome">
       <div
         className={style({
-          ...csstips.padding(rem(4), px(5), rem(2), px(5)),
-          display: 'flex',
-          height: percent(70),
+          display: 'grid',
+          height: percent(80),
+          gridTemplateColumns: 'auto 45%',
+          gridTemplateRows: 'auto 50px',
           $nest: {
             '@media screen and (min-width: 500px)': {
-              height: percent(80),
+              gridTemplateColumns: 'auto 40%',
             },
           },
-          position: 'relative',
-          overflowX: 'hidden',
         })}
       >
-        <img
-          src="chinese.png"
-          alt="chinese"
-          className={style({
-            position: 'absolute',
-            right: rem(-5),
-            top: rem(6),
-            height: percent(50),
-            animationName: keyframes({
-              '0%': { opacity: 0 },
-              '100%': { opacity: 1 },
-            }),
-            animationDuration: '1s',
-            animationTimingFunction: 'ease-in',
-            $nest: {
-              '@media screen and (min-width: 500px)': {
-                top: rem(8),
-              },
-            },
-          })}
-        />
         <div
           className={style({
             ...csstips.flex,
+            gridColumn: '2/3',
+            gridRow: '1/2',
+            position: 'relative',
+            overflowX: 'hidden',
+          })}
+        >
+          <img
+            src="chinese.png"
+            alt="chinese"
+            className={style({
+              position: 'absolute',
+              right: rem(-1),
+              top: rem(6),
+              height: percent(50),
+              animationName: keyframes({
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              }),
+              animationDuration: '1s',
+              animationTimingFunction: 'ease-in',
+              $nest: {
+                '@media screen and (min-width: 500px)': {
+                  top: rem(8),
+                },
+              },
+            })}
+          />
+        </div>
+        <div
+          className={style({
             ...csstips.centerCenter,
-            ...csstips.vertical,
+            gridColumn: '1/2',
           })}
         >
           <div
             className={style({
-              ...csstips.content,
-              ...csstips.vertical,
               animationName: keyframes({
                 '0%': { opacity: 0 },
                 '100%': { opacity: 1 },
               }),
               animationDuration: '2s',
               animationTimingFunction: 'ease-in',
-              backgroundColor: 'pink',
             })}
           >
             <div>Horaires:</div>
@@ -119,24 +124,26 @@ export default function Home({ data }: Props) {
             <div>Horaires:</div>
             <div>Horaires:</div>
           </div>
-          <span
-            className={style({
-              ...csstips.end,
-              animationName: pulse,
-              animationDuration: '3s',
-              animationIterationCount: 'infinite',
-              animationTimingFunction: 'ease-in',
-            })}
-          >
-            <i
-              className={classes(
-                'fas fa-angle-double-down',
-                style({
-                  fontSize: rem(2),
-                })
-              )}
-            ></i>
-          </span>
+        </div>
+        <div
+          className={style({
+            ...csstips.centerCenter,
+            gridColumn: '1/3',
+            gridRow: '2/3',
+            animationName: pulse,
+            animationDuration: '3s',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in',
+          })}
+        >
+          <i
+            className={classes(
+              'fas fa-angle-double-down',
+              style({
+                fontSize: rem(2),
+              })
+            )}
+          ></i>
         </div>
       </div>
       <div
