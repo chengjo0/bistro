@@ -1,10 +1,9 @@
 import * as csstips from 'csstips'
-import { percent, px, rem } from 'csx'
-import * as React from 'react'
-import { style } from 'typestyle'
-import Layout from '../components/layout'
+import { percent, rem } from 'csx'
 import { graphql } from 'gatsby'
-import Helmet from 'react-helmet'
+import * as React from 'react'
+import { classes, keyframes, style } from 'typestyle'
+import Layout from '../components/layout'
 
 interface Props {
   data: {
@@ -51,154 +50,104 @@ interface Props {
   }
 }
 
+const pulse = keyframes({
+  '0%': { opacity: 0 },
+  '50%': { opacity: 1 },
+  '100%': { opacity: 0 },
+})
+
 export default function Home({ data }: Props) {
   return (
-    <Layout>
-      <Helmet>
-        <title>
-          {data.allContentfulInformations.edges[0].node.name} | Home
-        </title>
-      </Helmet>
-      <img
-        src={String(data.contentfulAsset.fluid.src)}
-        alt="hero"
-        className={style({
-          gridColumn: '1 / 4',
-          maxHeight: rem(50),
-          width: percent(100),
-        })}
-      />
+    <Layout pageName="Welcome">
       <div
         className={style({
-          gridColumn: '2 / 3',
-          gridRowStart: '2',
-          textAlign: 'justify',
-          paddingBottom: rem(2),
-          ...csstips.verticallySpaced(rem(2)),
+          display: 'grid',
+          height: percent(80),
+          gridTemplateColumns: 'auto 45%',
+          gridTemplateRows: 'auto 50px',
+          $nest: {
+            '@media screen and (min-width: 500px)': {
+              gridTemplateColumns: 'auto 40%',
+            },
+          },
         })}
       >
         <div
           className={style({
-            ...csstips.vertical,
-            $nest: {
-              '&>h1': {
-                marginBottom: rem(1),
-              },
-              '&>div>span': {
-                fontWeight: 'bold',
-              },
-              '&>div:last-child': {
-                paddingTop: rem(0.5),
-              },
-            },
-          })}
-        >
-          <h1>Horaires:</h1>
-          {data.allContentfulHorairesDouverture.edges[0].node.openingHour.map(
-            openingHours => (
-              <div key={String(openingHours.period)}>
-                <span>{openingHours.period}: </span>
-                {openingHours.isOpenForLunch
-                  ? `${openingHours.lunchOpeningTime} - ${
-                      openingHours.lunchClosingTime
-                    } ${
-                      openingHours.isOpenForDinner
-                        ? ` / ${openingHours.dinnerOpeningTime} - ${openingHours.dinnerClosingTime}`
-                        : ''
-                    }`
-                  : `fermé`}
-              </div>
-            )
-          )}
-          <div>
-            <div>{data.allContentfulInformations.edges[0].node.phone}</div>
-            <div>{data.allContentfulInformations.edges[0].node.address}</div>
-          </div>
-        </div>
-        <div
-          className={style({
-            display: 'grid',
-            gridTemplateRows: `75% 25%`,
-            height: rem(15),
+            ...csstips.flex,
+            gridColumn: '2/3',
+            gridRow: '1/2',
+            position: 'relative',
+            overflowX: 'hidden',
           })}
         >
           <img
-            src={String(data.allContentfulPlat.edges[0].node.picture.fluid.src)}
-            alt="hero"
+            src="chinese.png"
+            alt="chinese"
             className={style({
-              height: percent(100),
-              width: percent(100),
+              position: 'absolute',
+              right: rem(-1),
+              top: rem(6),
+              height: percent(50),
+              animationName: keyframes({
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              }),
+              animationDuration: '1s',
+              animationTimingFunction: 'ease-in',
+              $nest: {
+                '@media screen and (min-width: 500px)': {
+                  top: rem(8),
+                },
+              },
             })}
           />
-          <div
-            className={style({
-              ...csstips.horizontal,
-              ...csstips.centerCenter,
-              borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
-              borderStyle: 'solid',
-              borderBottomLeftRadius: px(3),
-              borderBottomRightRadius: px(3),
-            })}
-          >
-            Menu
-          </div>
         </div>
         <div
           className={style({
-            display: 'grid',
-            gridTemplateRows: `75% 25%`,
-            height: rem(15),
+            ...csstips.centerCenter,
+            gridColumn: '1/2',
           })}
         >
-          <img
-            src={String(data.allContentfulPlat.edges[0].node.picture.fluid.src)}
-            alt="hero"
-            className={style({
-              height: percent(100),
-              width: percent(100),
-            })}
-          />
           <div
             className={style({
-              ...csstips.horizontal,
-              ...csstips.centerCenter,
-              borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
-              borderStyle: 'solid',
-              borderBottomLeftRadius: px(3),
-              borderBottomRightRadius: px(3),
+              animationName: keyframes({
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              }),
+              animationDuration: '2s',
+              animationTimingFunction: 'ease-in',
             })}
-          >
-            Starters
-          </div>
+          ></div>
         </div>
         <div
           className={style({
-            display: 'grid',
-            gridTemplateRows: `75% 25%`,
-            height: rem(15),
+            ...csstips.centerCenter,
+            gridColumn: '1/3',
+            gridRow: '2/3',
+            animationName: pulse,
+            animationDuration: '3s',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in',
           })}
         >
-          <img
-            src="hero.jpg"
-            alt="hero"
-            className={style({
-              height: percent(100),
-              width: percent(100),
-            })}
-          />
-          <div
-            className={style({
-              ...csstips.horizontal,
-              ...csstips.centerCenter,
-              borderWidth: `${px(0)} ${px(2)} ${px(2)} ${px(2)}`,
-              borderStyle: 'solid',
-              borderBottomLeftRadius: px(3),
-              borderBottomRightRadius: px(3),
-            })}
-          >
-            Desserts
-          </div>
+          <i
+            className={classes(
+              'fas fa-angle-double-down',
+              style({
+                fontSize: rem(2),
+              })
+            )}
+          ></i>
         </div>
+      </div>
+      <div
+        className={style({
+          backgroundColor: 'red',
+          height: percent(100),
+        })}
+      >
+        and then...
       </div>
     </Layout>
   )
