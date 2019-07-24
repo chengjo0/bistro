@@ -1,5 +1,5 @@
 import * as csstips from 'csstips'
-import { percent, px, rem } from 'csx'
+import { percent, px, rem, rotate, deg } from 'csx'
 import { graphql } from 'gatsby'
 import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
@@ -61,42 +61,67 @@ export default function Home({ data }: Props) {
     <Layout pageName="Welcome">
       <div
         className={style({
-          height: percent(100),
-          display: 'grid',
-          gridTemplateColumns: `${px(25)} auto ${px(25)}`,
+          ...csstips.padding(rem(4), px(5), rem(2), px(5)),
+          display: 'flex',
+          height: percent(70),
           $nest: {
             '@media screen and (min-width: 500px)': {
-              gridTemplateColumns: `${px(250)} auto ${px(250)}`,
+              height: percent(80),
             },
           },
+          position: 'relative',
+          overflowX: 'hidden',
         })}
       >
+        <img
+          src="chinese.png"
+          alt="chinese"
+          className={style({
+            position: 'absolute',
+            right: rem(-5),
+            top: rem(6),
+            height: percent(50),
+            animationName: keyframes({
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 },
+            }),
+            animationDuration: '1s',
+            animationTimingFunction: 'ease-in',
+            $nest: {
+              '@media screen and (min-width: 500px)': {
+                top: rem(8),
+              },
+            },
+          })}
+        />
         <div
           className={style({
-            ...csstips.vertical,
+            ...csstips.flex,
             ...csstips.centerCenter,
-            gridColumn: '2 / 3',
-            textAlign: 'justify',
-            marginTop: rem(3),
-            paddingBottom: rem(2),
-            position: 'relative',
+            ...csstips.vertical,
           })}
         >
           <div
             className={style({
-              ...csstips.flex,
+              ...csstips.content,
               ...csstips.vertical,
-              ...csstips.centerCenter,
               animationName: keyframes({
                 '0%': { opacity: 0 },
                 '100%': { opacity: 1 },
               }),
-              animationDuration: '1s',
+              animationDuration: '2s',
               animationTimingFunction: 'ease-in',
+              backgroundColor: 'pink',
             })}
-          ></div>
+          >
+            <div>Horaires:</div>
+            <div>Horaires:</div>
+            <div>Horaires:</div>
+            <div>Horaires:</div>
+          </div>
           <span
             className={style({
+              ...csstips.end,
               animationName: pulse,
               animationDuration: '3s',
               animationIterationCount: 'infinite',
