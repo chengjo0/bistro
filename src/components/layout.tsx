@@ -1,10 +1,12 @@
-import { percent, px, viewHeight } from 'csx'
+import { percent, viewHeight } from 'csx'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Header from './header'
+import Helmet from 'react-helmet'
 
 interface Props {
   children: React.ReactNode
+  pageName: String
 }
 
 export default (props: Props) => {
@@ -15,21 +17,12 @@ export default (props: Props) => {
         width: percent(100),
       })}
     >
+      <Helmet>
+        <title>Bistro d'Asie | {String(props.pageName)}</title>
+        <script src="https://kit.fontawesome.com/e292d05fa9.js"></script>
+      </Helmet>
       <Header />
-      <div
-        className={style({
-          height: percent(100),
-          display: 'grid',
-          gridTemplateColumns: `${px(25)} auto ${px(25)}`,
-          $nest: {
-            '@media screen and (min-width: 500px)': {
-              gridTemplateColumns: `${px(250)} auto ${px(250)}`,
-            },
-          },
-        })}
-      >
-        {props.children}
-      </div>
+      {props.children}
     </div>
   )
 }
