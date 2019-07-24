@@ -1,10 +1,8 @@
-import { percent, px, rem, viewHeight, linearGradient } from 'csx'
+import { percent, viewHeight } from 'csx'
 import * as React from 'react'
 import Helmet from 'react-helmet'
 import { style } from 'typestyle'
 import Header from './header'
-import * as csstips from 'csstips'
-import { Colors } from '../theme'
 
 interface Props {
   children: React.ReactNode

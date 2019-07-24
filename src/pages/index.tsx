@@ -1,5 +1,5 @@
 import * as csstips from 'csstips'
-import { percent, px, rem, rotate, deg } from 'csx'
+import { percent, rem } from 'csx'
 import { graphql } from 'gatsby'
 import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
@@ -118,12 +118,7 @@ export default function Home({ data }: Props) {
               animationDuration: '2s',
               animationTimingFunction: 'ease-in',
             })}
-          >
-            <div>Horaires:</div>
-            <div>Horaires:</div>
-            <div>Horaires:</div>
-            <div>Horaires:</div>
-          </div>
+          ></div>
         </div>
         <div
           className={style({
