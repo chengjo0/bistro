@@ -29,7 +29,7 @@ const Header = () => {
         ...csstips.horizontal,
         position: 'fixed',
         top: px(0),
-        height: rem(3),
+        height: rem(4),
         width: percent(100),
         background: Theme.Colors.purple.fade(0.9).toString(),
         paddingLeft: px(25),
