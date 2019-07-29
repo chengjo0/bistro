@@ -1,5 +1,5 @@
 import * as csstips from 'csstips'
-import { percent, px, rem } from 'csx'
+import { deg, percent, px, rem, rotateX } from 'csx'
 import { Link } from 'gatsby'
 import * as React from 'react'
 import { classes, style } from 'typestyle'
@@ -62,17 +62,20 @@ const Header = () => {
           <span>Bistro d'Asie</span>
         </Link>
         <div
+          className={style({})}
           onClick={() => {
             setOpenMenu(!openMenu)
           }}
         >
           <i
             className={classes(
-              'fas fa-th',
+              'fas fa-angle-down',
               style({
                 padding: `${rem(1)} ${rem(0)} ${rem(1)} ${rem(1)}`,
                 fontSize: rem(1.5),
                 color: Theme.Colors.gold.toString(),
+                transform: rotateX(deg(openMenu ? 180 : 0)),
+                transition: 'transform .5s ease',
               })
             )}
           ></i>
