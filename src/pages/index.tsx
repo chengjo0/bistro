@@ -6,20 +6,21 @@ import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
 import { Colors } from '../theme'
 
+type OpeningHour = {
+  period: String
+  lunchOpeningTime: String
+  lunchClosingTime: String
+  dinnerOpeningTime: String
+  dinnerClosingTime: String
+  openingType: 'Fermé' | 'Midi seulement' | 'Midi et soir'
+}
+
 interface Props {
   data: {
     allContentfulHorairesDouverture: {
       edges: Array<{
         node: {
-          openingHour: Array<{
-            isOpenForLunch: Boolean
-            isOpenForDinner: Boolean
-            period: String
-            lunchOpeningTime: String
-            lunchClosingTime: String
-            dinnerOpeningTime: String
-            dinnerClosingTime: String
-          }>
+          openingHour: Array<OpeningHour>
         }
       }>
     }
@@ -46,6 +47,25 @@ const pulse = keyframes({
   '50%': { opacity: 1 },
   '100%': { opacity: 0 },
 })
+
+const getOpeningHours = (openingHour: OpeningHour) => {
+  let str = ''
+  switch (openingHour.openingType) {
+    case 'Fermé':
+      str = openingHour.openingType
+      break
+    case 'Midi et soir':
+      str = `${openingHour.lunchOpeningTime} - ${openingHour.lunchClosingTime} / ${openingHour.dinnerOpeningTime} - ${openingHour.dinnerClosingTime}`
+      break
+    case 'Midi seulement':
+      str = `${openingHour.lunchOpeningTime} - ${openingHour.lunchClosingTime}`
+      break
+    default:
+      break
+  }
+
+  return <div>{str}</div>
+}
 
 export default function Home({ data }: Props) {
   return (
@@ -111,26 +131,7 @@ export default function Home({ data }: Props) {
                 })}
               >
                 <div>{openingHour.period} :</div>
-                {!openingHour.lunchOpeningTime && true ? (
-                  <div>Fermé</div>
-                ) : openingHour.lunchOpeningTime &&
-                  openingHour.lunchClosingTime ? (
-                  <div>
-                    {openingHour.lunchOpeningTime} -{' '}
-                    {openingHour.lunchClosingTime}
-                  </div>
-                ) : (
-                  ''
-                )}
-                {openingHour.dinnerOpeningTime &&
-                openingHour.dinnerClosingTime ? (
-                  <div>
-                    &nbsp;/&nbsp;{openingHour.dinnerOpeningTime} -{' '}
-                    {openingHour.dinnerClosingTime}
-                  </div>
-                ) : (
-                  ''
-                )}
+                {getOpeningHours(openingHour)}
               </div>
             )
           )}
@@ -183,7 +184,6 @@ export default function Home({ data }: Props) {
       </div>
       <div
         className={style({
-          backgroundColor: 'red',
           height: percent(100),
         })}
       >
@@ -204,6 +204,7 @@ export const query = graphql`
             lunchClosingTime
             lunchOpeningTime
             period
+            openingType
           }
         }
       }
