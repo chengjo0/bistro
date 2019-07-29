@@ -20,6 +20,8 @@ export default ({ pageName, withPadding = false, children }: Props) => {
     >
       <Helmet>
         <title>Bistro d'Asie | {String(pageName)}</title>
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="preconnect" href="//fonts.googleapis.com" />
         <script src="https://kit.fontawesome.com/e292d05fa9.js"></script>
       </Helmet>
       <Header />
