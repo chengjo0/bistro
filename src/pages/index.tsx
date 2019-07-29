@@ -6,20 +6,21 @@ import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
 import { Colors } from '../theme'
 
+type OpeningHour = {
+  period: String
+  lunchOpeningTime: String
+  lunchClosingTime: String
+  dinnerOpeningTime: String
+  dinnerClosingTime: String
+  openingType: 'Fermé' | 'Midi seulement' | 'Midi et soir'
+}
+
 interface Props {
   data: {
     allContentfulHorairesDouverture: {
       edges: Array<{
         node: {
-          openingHour: Array<{
-            isOpenForLunch: Boolean
-            isOpenForDinner: Boolean
-            period: String
-            lunchOpeningTime: String
-            lunchClosingTime: String
-            dinnerOpeningTime: String
-            dinnerClosingTime: String
-          }>
+          openingHours: Array<OpeningHour>
         }
       }>
     }
@@ -30,7 +31,7 @@ interface Props {
           phone: String
           address: String
           hero: Array<{
-            description: 'mobile' | 'browser'
+            description: 'mobile' | 'browser' | 'browser-v2'
             fluid: {
               src: String
             }
@@ -54,6 +55,7 @@ export default function Home({ data }: Props) {
         className={style({
           display: 'grid',
           height: percent(90),
+          width: percent(100),
           gridTemplateColumns: `auto ${percent(50)}`,
           gridTemplateRows: `auto ${percent(15)}`,
           $nest: {
@@ -70,9 +72,9 @@ export default function Home({ data }: Props) {
             ...csstips.verticallySpaced(rem(1)),
             gridColumn: '1/3',
             gridRow: '1/3',
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("${
               data.allContentfulInformations.edges[0].node.hero.filter(
-                img => img.description === 'mobile'
+                img => img.description === 'browser-v2'
               )[0].fluid.src
             }")`,
             backgroundPosition: 'center',
@@ -87,78 +89,15 @@ export default function Home({ data }: Props) {
                 paddingTop: rem(5),
               },
               '@media screen and (min-width: 500px)': {
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("${
                   data.allContentfulInformations.edges[0].node.hero.filter(
-                    img => img.description === 'browser'
+                    img => img.description === 'browser-v2'
                   )[0].fluid.src
                 }")`,
               },
             },
           })}
-        >
-          <div>Horaires :</div>
-          {data.allContentfulHorairesDouverture.edges[0].node.openingHour.map(
-            openingHour => (
-              <div
-                key={`${openingHour.period}`}
-                className={style({
-                  ...csstips.horizontal,
-                  $nest: {
-                    '& > div:first-child': {
-                      paddingRight: rem(1),
-                    },
-                  },
-                })}
-              >
-                <div>{openingHour.period} :</div>
-                {!openingHour.lunchOpeningTime && true ? (
-                  <div>Fermé</div>
-                ) : openingHour.lunchOpeningTime &&
-                  openingHour.lunchClosingTime ? (
-                  <div>
-                    {openingHour.lunchOpeningTime} -{' '}
-                    {openingHour.lunchClosingTime}
-                  </div>
-                ) : (
-                  ''
-                )}
-                {openingHour.dinnerOpeningTime &&
-                openingHour.dinnerClosingTime ? (
-                  <div>
-                    &nbsp;/&nbsp;{openingHour.dinnerOpeningTime} -{' '}
-                    {openingHour.dinnerClosingTime}
-                  </div>
-                ) : (
-                  ''
-                )}
-              </div>
-            )
-          )}
-          <div
-            className={style({
-              ...csstips.centerCenter,
-              ...csstips.vertical,
-              ...csstips.verticallySpaced(rem(1)),
-              $nest: {
-                '& > a': {
-                  textDecoration: 'none',
-                  color: 'white',
-                },
-              },
-            })}
-          >
-            <a
-              href={`geo://?q=${data.allContentfulInformations.edges[0].node.address}`}
-            >
-              {data.allContentfulInformations.edges[0].node.address}
-            </a>
-            <a
-              href={`tel:${data.allContentfulInformations.edges[0].node.phone}`}
-            >
-              {data.allContentfulInformations.edges[0].node.phone}
-            </a>
-          </div>
-        </div>
+        ></div>
         <div
           className={style({
             ...csstips.centerCenter,
@@ -183,27 +122,29 @@ export default function Home({ data }: Props) {
       </div>
       <div
         className={style({
-          backgroundColor: 'red',
-          height: percent(100),
+          height: percent(50),
+          ...csstips.flex,
+          ...csstips.centerCenter,
         })}
       >
-        and then...
+        Comming soon...
       </div>
     </Layout>
   )
 }
 
 export const query = graphql`
-  query MyQuery {
-    allContentfulHorairesDouverture(filter: { node_locale: { eq: "fr" } }) {
+  query IndexPage {
+    allContentfulContacts(filter: { node_locale: { eq: "fr" } }) {
       edges {
         node {
-          openingHour {
+          openingHours {
             dinnerClosingTime
             dinnerOpeningTime
             lunchClosingTime
             lunchOpeningTime
             period
+            openingType
           }
         }
       }

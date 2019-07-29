@@ -7,16 +7,16 @@ import * as Theme from '../theme'
 
 const childrenNodes = [
   <Link to="/">
-    <h3>Bistro d'Asie</h3>
+    <h3>Home</h3>
+  </Link>,
+  <Link to="/menu/">
+    <h3>Menu</h3>
   </Link>,
   <Link to="/about/">
     <h3>About</h3>
   </Link>,
-  <Link to="/contact/">
-    <h3>Contact</h3>
-  </Link>,
-  <Link to="/contact/">
-    <h3>Menu</h3>
+  <Link to="/contacts/">
+    <h3>Contacts</h3>
   </Link>,
 ]
 
