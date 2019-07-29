@@ -1,3 +1,8 @@
 import * as React from 'react'
+import Layout from '../components/layout'
 
-export default () => <div>here is a menu</div>
+export default () => (
+  <Layout pageName="Menu" withPadding>
+    <div>Coming soon...</div>
+  </Layout>
+)
