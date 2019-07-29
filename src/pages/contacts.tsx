@@ -63,7 +63,14 @@ export default ({ data }: Props) => (
         },
       })}
     >
-      <h1>{data.contentfulContacts.title}</h1>
+      <h1
+        className={style({
+          fontFamily: 'Oswald',
+          fontWeight: 500,
+        })}
+      >
+        {data.contentfulContacts.title}
+      </h1>
       <div>
         {data.contentfulContacts.openingHours.map(openingHour => (
           <div

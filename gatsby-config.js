@@ -29,5 +29,18 @@ module.exports = {
         localeFilter: locale => locale.code === 'fr',
       },
     },
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: [
+            'Oswald:400,500,700',
+            'Asap:400',
+            'Raleway:400,500,700',
+            'Montserrat:400,500,600',
+          ],
+        },
+      },
+    },
   ],
 }
