@@ -5,39 +5,14 @@ import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
 import { Colors } from '../theme'
-
-type OpeningHour = {
-  period: String
-  lunchOpeningTime: String
-  lunchClosingTime: String
-  dinnerOpeningTime: String
-  dinnerClosingTime: String
-  openingType: 'Fermé' | 'Midi seulement' | 'Midi et soir'
-}
-
 interface Props {
   data: {
-    allContentfulHorairesDouverture: {
-      edges: Array<{
-        node: {
-          openingHours: Array<OpeningHour>
+    contentfulInformations: {
+      picture: {
+        fluid: {
+          src: String
         }
-      }>
-    }
-    allContentfulInformations: {
-      edges: Array<{
-        node: {
-          name: String
-          phone: String
-          address: String
-          hero: Array<{
-            description: 'mobile' | 'browser' | 'browser-v2'
-            fluid: {
-              src: String
-            }
-          }>
-        }
-      }>
+      }
     }
   }
 }
@@ -72,11 +47,7 @@ export default function Home({ data }: Props) {
             ...csstips.verticallySpaced(rem(1)),
             gridColumn: '1/3',
             gridRow: '1/3',
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("${
-              data.allContentfulInformations.edges[0].node.hero.filter(
-                img => img.description === 'browser-v2'
-              )[0].fluid.src
-            }")`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("${data.contentfulInformations.picture.fluid.src}")`,
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
@@ -89,11 +60,7 @@ export default function Home({ data }: Props) {
                 paddingTop: rem(5),
               },
               '@media screen and (min-width: 500px)': {
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("${
-                  data.allContentfulInformations.edges[0].node.hero.filter(
-                    img => img.description === 'browser-v2'
-                  )[0].fluid.src
-                }")`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("${data.contentfulInformations.picture.fluid.src}")`,
               },
             },
           })}
@@ -135,32 +102,10 @@ export default function Home({ data }: Props) {
 
 export const query = graphql`
   query IndexPage {
-    allContentfulContacts(filter: { node_locale: { eq: "fr" } }) {
-      edges {
-        node {
-          openingHours {
-            dinnerClosingTime
-            dinnerOpeningTime
-            lunchClosingTime
-            lunchOpeningTime
-            period
-            openingType
-          }
-        }
-      }
-    }
-    allContentfulInformations(filter: { node_locale: { eq: "fr" } }) {
-      edges {
-        node {
-          address
-          name
-          phone
-          hero {
-            fluid {
-              src
-            }
-            description
-          }
+    contentfulInformations {
+      picture {
+        fluid {
+          src
         }
       }
     }

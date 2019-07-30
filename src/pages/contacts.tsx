@@ -7,12 +7,10 @@ import { rem, percent } from 'csx'
 
 interface Props {
   data: {
-    contentfulContacts: {
-      information: {
-        address: String
-        phone: String
-      }
-      openingHours: Array<OpeningHour>
+    contentfulInformations: {
+      address: String
+      phoneNumber: String
+      hours: Array<OpeningHour>
       title: String
     }
   }
@@ -20,29 +18,30 @@ interface Props {
 
 type OpeningHour = {
   period: String
-  lunchOpeningTime: String
-  lunchClosingTime: String
-  dinnerOpeningTime: String
-  dinnerClosingTime: String
-  openingType: 'Fermé' | 'Midi seulement' | 'Midi et soir'
+  closingHourLunch: String
+  openingHourLunch: String
+  closingHourDinner: String
+  openingHourDinner: String
+  openForLunch: Boolean
+  openForDinner: Boolean
 }
 
 const getOpeningHours = (openingHour: OpeningHour) => {
   let str = ''
-  switch (openingHour.openingType) {
-    case 'Fermé':
-      str = openingHour.openingType
-      break
-    case 'Midi et soir':
-      str = `${openingHour.lunchOpeningTime} - ${openingHour.lunchClosingTime} / ${openingHour.dinnerOpeningTime} - ${openingHour.dinnerClosingTime}`
-      break
-    case 'Midi seulement':
-      str = `${openingHour.lunchOpeningTime} - ${openingHour.lunchClosingTime}`
-      break
-    default:
-      break
+  if (!openingHour.openForLunch && !openingHour.openForDinner) {
+    str = 'Fermé'
+  } else {
+    str += `${
+      openingHour.openForLunch
+        ? `${openingHour.openingHourLunch} - ${openingHour.closingHourLunch}`
+        : 'Fermé'
+    }`
+    str += `${
+      openingHour.openForDinner
+        ? ` / ${openingHour.openingHourDinner} - ${openingHour.closingHourDinner}`
+        : ' / Fermé'
+    }`
   }
-
   return <div>{str}</div>
 }
 
@@ -69,10 +68,10 @@ export default ({ data }: Props) => (
           fontWeight: 500,
         })}
       >
-        {data.contentfulContacts.title}
+        {data.contentfulInformations.title}
       </h1>
       <div>
-        {data.contentfulContacts.openingHours.map(openingHour => (
+        {data.contentfulInformations.hours.map(openingHour => (
           <div
             key={`${openingHour.period}`}
             className={style({
@@ -90,9 +89,9 @@ export default ({ data }: Props) => (
         ))}
       </div>
       <div>
-        <div>{data.contentfulContacts.information.address}</div>
-        <a href={`tel:${data.contentfulContacts.information.phone}`}>
-          {data.contentfulContacts.information.phone}
+        <div>{data.contentfulInformations.address}</div>
+        <a href={`tel:${data.contentfulInformations.phoneNumber}`}>
+          {data.contentfulInformations.phoneNumber}
         </a>
       </div>
     </div>
@@ -101,20 +100,18 @@ export default ({ data }: Props) => (
 
 export const query = graphql`
   query ContactPage {
-    contentfulContacts {
-      information {
-        address
-        phone
-      }
-      openingHours {
-        dinnerClosingTime
-        dinnerOpeningTime
-        lunchClosingTime
-        lunchOpeningTime
-        openingType
+    contentfulInformations {
+      address
+      hours {
+        openForLunch
+        openForDinner
+        closingHourDinner
+        closingHourLunch
+        openingHourDinner
+        openingHourLunch
         period
       }
-      title
+      phoneNumber
     }
   }
 `
