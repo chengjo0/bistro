@@ -25,8 +25,6 @@ module.exports = {
       options: {
         spaceId: process.env.GATSBY_SPACE_ID,
         accessToken: process.env.GATSBY_ACCESS_TOKEN,
-        downloadLocal: true,
-        localeFilter: locale => locale.code === 'fr',
       },
     },
     {

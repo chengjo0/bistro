@@ -101,7 +101,7 @@ export default ({ data }: Props) => {
             fontWeight: 500,
           })}
         >
-          {value.lang == 'fr' ? 'Addresse & Contact:' : 'Adress & Contact:'}
+          {value.lang == 'fr' ? 'Adresse & Contact:' : 'Address & Contact:'}
         </h1>
         <div>
           <div>{data.contentfulInformations.address}</div>
@@ -115,8 +115,8 @@ export default ({ data }: Props) => {
 }
 
 export const query = graphql`
-  query ContactPage {
-    contentfulInformations {
+  query ContactPage($lang: String) {
+    contentfulInformations(node_locale: { eq: $lang }) {
       address
       hours {
         openForLunch
