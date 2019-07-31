@@ -57,6 +57,9 @@ const Header = () => {
           className={style({
             textDecoration: 'none',
             color: Theme.Colors.gold.toString(),
+            fontFamily: 'Montserrat',
+            fontWeight: 600,
+            textTransform: 'uppercase',
           })}
         >
           <span>Bistro d'Asie</span>
@@ -104,7 +107,7 @@ const Header = () => {
             ...csstips.vertical,
             ...csstips.centerCenter,
             ...csstips.aroundJustified,
-            backgroundColor: Theme.Colors.gold.fade(0.8).toString(),
+            backgroundColor: Theme.Colors.gold.fade(0.9).toString(),
             overflowY: 'hidden',
           })}
         >

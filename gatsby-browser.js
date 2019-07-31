@@ -10,9 +10,20 @@ cssRule('html, body', {
 
 cssRule('html', {
   fontSize: px(16),
+  fontFamily: 'sans-serif',
+
   $nest: {
+    '&.wf-montserrat-n4-active.wf-montserrat-n5-active.wf-montserrat-n6-active': {
+      fontFamily: 'Montserrat, sans-serif',
+    },
+
     [`@media only screen and (max-width: 1367px)`]: {
       fontSize: px(14),
     },
   },
+})
+
+cssRule('a', {
+  textDecoration: 'none',
+  color: 'black',
 })
