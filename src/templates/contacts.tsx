@@ -6,19 +6,13 @@ import { style } from 'typestyle'
 import Layout from '../components/layout'
 import { LanguageContext } from '../context'
 
-type NodeType = {
-  node: {
-    node_locale: 'fr' | 'en'
-    address: String
-    phoneNumber: String
-    hours: Array<OpeningHour>
-  }
-}
-
 interface Props {
   data: {
-    allContentfulInformations: {
-      edges: Array<NodeType>
+    contentfulInformations: {
+      address: String
+      phoneNumber: String
+      hours: Array<OpeningHour>
+      title: String
     }
   }
 }
@@ -54,13 +48,6 @@ const getOpeningHours = (openingHour: OpeningHour) => {
 
 export default ({ data }: Props) => {
   const value = React.useContext(LanguageContext)
-  const restaurantInfo = data.allContentfulInformations.edges.find(
-    edge => edge.node.node_locale === value.lang
-  )
-
-  if (!restaurantInfo) {
-    return
-  }
 
   return (
     <Layout pageName="Contacts">
@@ -89,7 +76,7 @@ export default ({ data }: Props) => {
           {value.lang == 'fr' ? 'Horaires:' : 'Hours:'}
         </h1>
         <div>
-          {restaurantInfo.node.hours.map(openingHour => (
+          {data.contentfulInformations.hours.map(openingHour => (
             <div
               key={`${openingHour.period}`}
               className={style({
@@ -117,9 +104,9 @@ export default ({ data }: Props) => {
           {value.lang == 'fr' ? 'Adresse & Contact:' : 'Address & Contact:'}
         </h1>
         <div>
-          <div>{restaurantInfo.node.address}</div>
-          <a href={`tel:${restaurantInfo.node.phoneNumber}`}>
-            {restaurantInfo.node.phoneNumber}
+          <div>{data.contentfulInformations.address}</div>
+          <a href={`tel:${data.contentfulInformations.phoneNumber}`}>
+            {data.contentfulInformations.phoneNumber}
           </a>
         </div>
       </div>
@@ -128,24 +115,19 @@ export default ({ data }: Props) => {
 }
 
 export const query = graphql`
-  query ContactPage {
-    allContentfulInformations {
-      edges {
-        node {
-          node_locale
-          address
-          phoneNumber
-          hours {
-            openForLunch
-            openForDinner
-            closingHourDinner
-            closingHourLunch
-            openingHourDinner
-            openingHourLunch
-            period
-          }
-        }
+  query ContactPage($lang: String) {
+    contentfulInformations(node_locale: { eq: $lang }) {
+      address
+      hours {
+        openForLunch
+        openForDinner
+        closingHourDinner
+        closingHourLunch
+        openingHourDinner
+        openingHourLunch
+        period
       }
+      phoneNumber
     }
   }
 `
