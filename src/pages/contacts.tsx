@@ -68,7 +68,7 @@ export default ({ data }: Props) => (
           fontWeight: 500,
         })}
       >
-        {data.contentfulInformations.title}
+        Horaires:
       </h1>
       <div>
         {data.contentfulInformations.hours.map(openingHour => (
@@ -89,6 +89,14 @@ export default ({ data }: Props) => (
         ))}
       </div>
       <div>
+        <h1
+          className={style({
+            fontFamily: 'Oswald',
+            fontWeight: 500,
+          })}
+        >
+          Addresse & Contact:
+        </h1>
         <div>{data.contentfulInformations.address}</div>
         <a href={`tel:${data.contentfulInformations.phoneNumber}`}>
           {data.contentfulInformations.phoneNumber}

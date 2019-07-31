@@ -4,6 +4,7 @@ import { Link } from 'gatsby'
 import * as React from 'react'
 import { classes, style } from 'typestyle'
 import * as Theme from '../theme'
+import { fontWeightBold } from 'csstips'
 
 const childrenNodes = [
   <Link to="/">
@@ -57,6 +58,9 @@ const Header = () => {
           className={style({
             textDecoration: 'none',
             color: Theme.Colors.gold.toString(),
+            fontFamily: 'Montserrat',
+            fontWeight: 600,
+            textTransform: 'uppercase',
           })}
         >
           <span>Bistro d'Asie</span>
