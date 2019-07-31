@@ -1,9 +1,10 @@
 import * as csstips from 'csstips'
+import { percent, rem } from 'csx'
 import { graphql } from 'gatsby'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
-import { rem, percent } from 'csx'
+import { LanguageContext } from '../context'
 
 interface Props {
   data: {
@@ -45,69 +46,73 @@ const getOpeningHours = (openingHour: OpeningHour) => {
   return <div>{str}</div>
 }
 
-export default ({ data }: Props) => (
-  <Layout pageName="Contacts">
-    <div
-      className={style({
-        ...csstips.flex,
-        ...csstips.centerCenter,
-        ...csstips.vertical,
-        ...csstips.verticallySpaced(rem(4)),
-        height: percent(100),
-        $nest: {
-          '& > div': {
-            ...csstips.centerCenter,
-            ...csstips.vertical,
-            ...csstips.verticallySpaced(rem(1)),
+export default ({ data }: Props) => {
+  const value = React.useContext(LanguageContext)
+
+  return (
+    <Layout pageName="Contacts">
+      <div
+        className={style({
+          ...csstips.flex,
+          ...csstips.centerCenter,
+          ...csstips.vertical,
+          ...csstips.verticallySpaced(rem(4)),
+          height: percent(100),
+          $nest: {
+            '& > div': {
+              ...csstips.centerCenter,
+              ...csstips.vertical,
+              ...csstips.verticallySpaced(rem(1)),
+            },
           },
-        },
-      })}
-    >
-      <h1
-        className={style({
-          fontFamily: 'Oswald',
-          fontWeight: 500,
         })}
       >
-        Horaires:
-      </h1>
-      <div>
-        {data.contentfulInformations.hours.map(openingHour => (
-          <div
-            key={`${openingHour.period}`}
-            className={style({
-              ...csstips.horizontal,
-              $nest: {
-                '& > div:first-child': {
-                  paddingRight: rem(1),
-                  // fontFamily: 'Montserrat, sans-serif',
-                  fontWeight: 'bold',
+        <h1
+          className={style({
+            fontFamily: 'Oswald',
+            fontWeight: 500,
+          })}
+        >
+          {value.lang == 'fr' ? 'Horaires:' : 'Hours:'}
+        </h1>
+        <div>
+          {data.contentfulInformations.hours.map(openingHour => (
+            <div
+              key={`${openingHour.period}`}
+              className={style({
+                ...csstips.horizontal,
+                $nest: {
+                  '& > div:first-child': {
+                    paddingRight: rem(1),
+                    // fontFamily: 'Montserrat, sans-serif',
+                    fontWeight: 'bold',
+                  },
                 },
-              },
-            })}
-          >
-            <div>{openingHour.period} :</div>
-            {getOpeningHours(openingHour)}
-          </div>
-        ))}
+              })}
+            >
+              <div>{openingHour.period} :</div>
+              {getOpeningHours(openingHour)}
+            </div>
+          ))}
+        </div>
+        <h1
+          className={style({
+            fontFamily: 'Oswald',
+            fontWeight: 500,
+          })}
+        >
+          {value.lang == 'fr' ? 'Addresse & Contact:' : 'Adress & Contact:'}
+        </h1>
+        <div>
+          <div>{data.contentfulInformations.address}</div>
+          <a href={`tel:${data.contentfulInformations.phoneNumber}`}>
+            {data.contentfulInformations.phoneNumber}
+          </a>
+        </div>
       </div>
-      <h1
-        className={style({
-          fontFamily: 'Oswald',
-          fontWeight: 500,
-        })}
-      >
-        Addresse & Contact:
-      </h1>
-      <div>
-        <div>{data.contentfulInformations.address}</div>
-        <a href={`tel:${data.contentfulInformations.phoneNumber}`}>
-          {data.contentfulInformations.phoneNumber}
-        </a>
-      </div>
-    </div>
-  </Layout>
-)
+    </Layout>
+  )
+}
 
 export const query = graphql`
   query ContactPage {
