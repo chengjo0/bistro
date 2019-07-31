@@ -52,12 +52,13 @@ export default ({ data }: Props) => (
         ...csstips.flex,
         ...csstips.centerCenter,
         ...csstips.vertical,
-        ...csstips.verticallySpaced(rem(2)),
+        ...csstips.verticallySpaced(rem(4)),
         height: percent(100),
         $nest: {
           '& > div': {
             ...csstips.centerCenter,
             ...csstips.vertical,
+            ...csstips.verticallySpaced(rem(1)),
           },
         },
       })}
@@ -79,6 +80,8 @@ export default ({ data }: Props) => (
               $nest: {
                 '& > div:first-child': {
                   paddingRight: rem(1),
+                  // fontFamily: 'Montserrat, sans-serif',
+                  fontWeight: 'bold',
                 },
               },
             })}
@@ -88,15 +91,15 @@ export default ({ data }: Props) => (
           </div>
         ))}
       </div>
+      <h1
+        className={style({
+          fontFamily: 'Oswald',
+          fontWeight: 500,
+        })}
+      >
+        Addresse & Contact:
+      </h1>
       <div>
-        <h1
-          className={style({
-            fontFamily: 'Oswald',
-            fontWeight: 500,
-          })}
-        >
-          Addresse & Contact:
-        </h1>
         <div>{data.contentfulInformations.address}</div>
         <a href={`tel:${data.contentfulInformations.phoneNumber}`}>
           {data.contentfulInformations.phoneNumber}

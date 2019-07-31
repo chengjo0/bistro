@@ -4,7 +4,6 @@ import { Link } from 'gatsby'
 import * as React from 'react'
 import { classes, style } from 'typestyle'
 import * as Theme from '../theme'
-import { fontWeightBold } from 'csstips'
 
 const childrenNodes = [
   <Link to="/">
@@ -108,7 +107,7 @@ const Header = () => {
             ...csstips.vertical,
             ...csstips.centerCenter,
             ...csstips.aroundJustified,
-            backgroundColor: Theme.Colors.gold.fade(0.8).toString(),
+            backgroundColor: Theme.Colors.gold.fade(0.9).toString(),
             overflowY: 'hidden',
           })}
         >
