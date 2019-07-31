@@ -1,5 +1,7 @@
+import * as React from 'react'
 import { px, percent } from 'csx'
 import { cssRule } from 'typestyle'
+import LanguageProvider from './src/context'
 
 cssRule('html, body', {
   margin: 0,
@@ -27,3 +29,7 @@ cssRule('a', {
   textDecoration: 'none',
   color: 'black',
 })
+
+export const wrapRootElement = ({ element }) => (
+  <LanguageProvider>{element}</LanguageProvider>
+)
