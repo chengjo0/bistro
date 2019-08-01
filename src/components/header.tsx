@@ -61,7 +61,7 @@ const Header = () => {
                     position: 'fixed',
                     top: px(0),
                     width: percent(100),
-                    background: Theme.Colors.purple.fade(0.9).toString(),
+                    background: Theme.colors.purple.fade(0.9).toString(),
                     zIndex: 100,
                   })}
                 >
@@ -91,13 +91,7 @@ const Header = () => {
                             : acc
                         }).linkTo
                       )}
-                      className={style({
-                        textDecoration: 'none',
-                        color: Theme.Colors.gold.toString(),
-                        fontFamily: 'Montserrat',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                      })}
+                      className={Theme.styles.brand}
                     >
                       <span>Bistro d'Asie</span>
                     </Link>
@@ -109,15 +103,10 @@ const Header = () => {
                       <i
                         className={classes(
                           'fas fa-angle-down',
-                          style({
-                            padding: `${rem(1)} ${rem(0)} ${rem(1)} ${rem(1)}`,
-                            fontSize: rem(1.5),
-                            color: Theme.Colors.gold.toString(),
-                            transform: rotateX(deg(openMenu ? 180 : 0)),
-                            transition: 'transform .5s ease',
-                          })
+                          Theme.styles.toggle,
+                          Theme.styles.animateToggle(openMenu)
                         )}
-                      ></i>
+                      />
                     </div>
                   </div>
                   <div
@@ -143,7 +132,7 @@ const Header = () => {
                         ...csstips.vertical,
                         ...csstips.centerCenter,
                         ...csstips.aroundJustified,
-                        backgroundColor: Theme.Colors.gold.fade(0.9).toString(),
+                        backgroundColor: Theme.colors.gold.fade(0.9).toString(),
                         overflowY: 'hidden',
                       })}
                     >
