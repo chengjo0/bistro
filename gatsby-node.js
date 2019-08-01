@@ -12,7 +12,7 @@ exports.createPages = ({ graphql, actions }) => {
   })
 
   createPage({
-    path: `/en`,
+    path: `/en/home`,
     component: path.resolve(`src/templates/index.tsx`),
     context: {
       lang: 'en',
@@ -76,18 +76,32 @@ exports.createPages = ({ graphql, actions }) => {
 
   return graphql(`
     query MyQuery {
-      allContentfulListeDeCategoriesDePlats {
-        edges {
-          node {
-            node_locale
-            dishCategory {
-              pathName
-              dishes {
-                name
-                description
-                price
-                spicy
-              }
+      fr: contentfulPages(node_locale: { eq: "fr" }) {
+        pageList {
+          ... on ContentfulCategorie {
+            id
+            title
+            url
+            plats {
+              name
+              description
+              price
+              spicy
+            }
+          }
+        }
+      }
+      en: contentfulPages(node_locale: { eq: "en" }) {
+        pageList {
+          ... on ContentfulCategorie {
+            id
+            title
+            url
+            plats {
+              name
+              description
+              price
+              spicy
             }
           }
         }
@@ -98,19 +112,25 @@ exports.createPages = ({ graphql, actions }) => {
       throw result.errors
     }
 
-    const { allContentfulListeDeCategoriesDePlats } = result.data
-    allContentfulListeDeCategoriesDePlats.edges.forEach(edge => {
-      const { node_locale } = edge.node
-      edge.node.dishCategory.forEach(category => {
-        createPage({
-          path: `/${node_locale === 'fr' ? 'plats' : 'en/dishes'}/${
-            category.pathName
-          }`,
-          component: path.resolve(`src/templates/dishes.tsx`),
-          context: {
-            dishes: category.dishes,
-          },
-        })
+    result.data['fr'].pageList.forEach(page => {
+      createPage({
+        path: page.url,
+        component: path.resolve(`src/templates/dishes.tsx`),
+        context: {
+          dishes: page.plats,
+          title: page.title,
+        },
+      })
+    })
+
+    result.data['en'].pageList.forEach(page => {
+      createPage({
+        path: page.url,
+        component: path.resolve(`src/templates/dishes.tsx`),
+        context: {
+          dishes: page.plats,
+          title: page.title,
+        },
       })
     })
   })

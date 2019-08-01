@@ -7,10 +7,10 @@ import { graphql, Link } from 'gatsby'
 
 interface Props {
   data: {
-    contentfulListeDeCategoriesDePlats: {
-      dishCategory: Array<{
-        pathName: String
+    contentfulPages: {
+      pageList: Array<{
         title: String
+        url: String
       }>
     }
   }
@@ -19,8 +19,8 @@ interface Props {
 export default ({ data }: Props) => (
   <Layout pageName="Menu" withPadding>
     <div className={style({ ...csstips.centerCenter, height: percent(100) })}>
-      {data.contentfulListeDeCategoriesDePlats.dishCategory.map(category => (
-        <Link to={`${window.location.pathname}/${category.pathName}`}>
+      {data.contentfulPages.pageList.map(category => (
+        <Link key={String(category.title)} to={`${category.url}`}>
           {category.title}
         </Link>
       ))}
@@ -29,11 +29,17 @@ export default ({ data }: Props) => (
 )
 
 export const query = graphql`
-  query GetCategories($lang: String) {
-    contentfulListeDeCategoriesDePlats(node_locale: { eq: $lang }) {
-      dishCategory {
-        pathName
-        title
+  query GetDishesPages($lang: String) {
+    contentfulPages(
+      node_locale: { eq: $lang }
+      contentful_id: { eq: "1i7wC5nQiERnHz4LNzxkpP" }
+    ) {
+      pageList {
+        ... on ContentfulCategorie {
+          id
+          title
+          url
+        }
       }
     }
   }
