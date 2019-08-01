@@ -1,6 +1,6 @@
 import * as csstips from 'csstips'
-import { deg, percent, px, rem, rotateX } from 'csx'
-import { graphql, Link, StaticQuery, navigate } from 'gatsby'
+import { percent, px, rem } from 'csx'
+import { graphql, Link, navigate, StaticQuery } from 'gatsby'
 import * as React from 'react'
 import { classes, style } from 'typestyle'
 import { ContextType, LanguageContext } from '../context'
@@ -130,14 +130,19 @@ const Header = () => {
                       className={style({
                         ...csstips.flex,
                         ...csstips.vertical,
-                        ...csstips.centerCenter,
-                        ...csstips.aroundJustified,
                         backgroundColor: Theme.colors.gold.fade(0.9).toString(),
                         overflowY: 'hidden',
                       })}
                     >
                       {links.node.page.map((node, index) => (
-                        <Link key={`link-${index}`} to={String(node.linkTo)}>
+                        <Link
+                          key={`link-${index}`}
+                          to={String(node.linkTo)}
+                          className={style({
+                            ...csstips.flex,
+                            ...csstips.centerCenter,
+                          })}
+                        >
                           <h3>{String(node.title)}</h3>
                         </Link>
                       ))}
