@@ -84,7 +84,13 @@ const Header = () => {
                     })}
                   >
                     <Link
-                      to="/"
+                      to={String(
+                        links.node.page.reduce((acc, val) => {
+                          return val.title === 'Home' || val.title === 'Accueil'
+                            ? val
+                            : acc
+                        }).linkTo
+                      )}
                       className={style({
                         textDecoration: 'none',
                         color: Theme.Colors.gold.toString(),
@@ -151,7 +157,7 @@ const Header = () => {
                           ...csstips.horizontal,
                           ...csstips.endJustified,
                           ...csstips.horizontallySpaced(rem(1)),
-                          ...csstips.padding(rem(0), rem(3), rem(0), rem(0)),
+                          marginRight: rem(2),
                           width: percent(100),
                         })}
                       >
