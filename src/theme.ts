@@ -32,8 +32,13 @@ export const fontSizes = {
 }
 
 export const paddings = {
-  desktop: px(250),
   mobile: px(25),
+  desktop: px(250),
+}
+
+export const headerHeight = {
+  mobile: rem(5),
+  desktop: rem(6),
 }
 
 export const styles = {
