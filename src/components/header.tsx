@@ -1,6 +1,6 @@
 import * as csstips from 'csstips'
-import { deg, percent, px, rem, rotateX } from 'csx'
-import { graphql, Link, StaticQuery, navigate } from 'gatsby'
+import { percent, px, rem } from 'csx'
+import { graphql, Link, navigate, StaticQuery } from 'gatsby'
 import * as React from 'react'
 import { classes, style } from 'typestyle'
 import { ContextType, LanguageContext } from '../context'
@@ -24,7 +24,6 @@ interface LinkType {
 
 const Header = () => {
   const [openMenu, setOpenMenu] = React.useState(false)
-
   return (
     <LanguageContext.Consumer>
       {({ lang, setLanguage }: ContextType) => {
@@ -55,34 +54,8 @@ const Header = () => {
               }
 
               return (
-                <header
-                  className={style({
-                    ...csstips.flex,
-                    position: 'fixed',
-                    top: px(0),
-                    width: percent(100),
-                    background: Theme.Colors.purple.fade(0.9).toString(),
-                    zIndex: 100,
-                  })}
-                >
-                  <div
-                    className={style({
-                      ...csstips.flex,
-                      ...csstips.betweenJustified,
-                      ...csstips.center,
-                      ...csstips.horizontal,
-                      height: rem(4),
-                      marginLeft: px(25),
-                      marginRight: px(25),
-                      $nest: {
-                        '@media screen and (min-width: 500px)': {
-                          height: rem(6),
-                          marginLeft: px(250),
-                          marginRight: px(250),
-                        },
-                      },
-                    })}
-                  >
+                <header className={styles.headerWrapper}>
+                  <div className={styles.header}>
                     <Link
                       to={String(
                         links.node.page.reduce((acc, val) => {
@@ -91,15 +64,9 @@ const Header = () => {
                             : acc
                         }).linkTo
                       )}
-                      className={style({
-                        textDecoration: 'none',
-                        color: Theme.Colors.gold.toString(),
-                        fontFamily: 'Montserrat',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                      })}
+                      className={Theme.styles.brand}
                     >
-                      <span>Bistro d'Asie</span>
+                      Bistro d'Asie
                     </Link>
                     <div
                       onClick={() => {
@@ -109,58 +76,24 @@ const Header = () => {
                       <i
                         className={classes(
                           'fas fa-angle-down',
-                          style({
-                            padding: `${rem(1)} ${rem(0)} ${rem(1)} ${rem(1)}`,
-                            fontSize: rem(1.5),
-                            color: Theme.Colors.gold.toString(),
-                            transform: rotateX(deg(openMenu ? 180 : 0)),
-                            transition: 'transform .5s ease',
-                          })
+                          Theme.styles.toggle,
+                          Theme.styles.animateToggle(openMenu)
                         )}
-                      ></i>
+                      />
                     </div>
                   </div>
-                  <div
-                    className={style({
-                      height: openMenu ? rem(20) : rem(0),
-                      display: 'flex',
-                      position: 'fixed',
-                      top: rem(4),
-                      right: px(0),
-                      width: percent(100),
-                      overflowY: 'hidden',
-                      transition: 'height .5s ease',
-                      $nest: {
-                        '@media screen and (min-width: 500px)': {
-                          top: rem(6),
-                        },
-                      },
-                    })}
-                  >
-                    <div
-                      className={style({
-                        ...csstips.flex,
-                        ...csstips.vertical,
-                        ...csstips.centerCenter,
-                        ...csstips.aroundJustified,
-                        backgroundColor: Theme.Colors.gold.fade(0.9).toString(),
-                        overflowY: 'hidden',
-                      })}
-                    >
+                  <div className={styles.menuWrapper(openMenu)}>
+                    <div className={styles.menu}>
                       {links.node.page.map((node, index) => (
-                        <Link key={`link-${index}`} to={String(node.linkTo)}>
+                        <Link
+                          key={`link-${index}`}
+                          to={String(node.linkTo)}
+                          className={styles.link}
+                        >
                           <h3>{String(node.title)}</h3>
                         </Link>
                       ))}
-                      <div
-                        className={style({
-                          ...csstips.horizontal,
-                          ...csstips.endJustified,
-                          ...csstips.horizontallySpaced(rem(1)),
-                          marginRight: rem(2),
-                          width: percent(100),
-                        })}
-                      >
+                      <div className={styles.languageSwitcher}>
                         <div
                           onClick={() => {
                             if (setLanguage && lang !== 'en') {
@@ -168,9 +101,7 @@ const Header = () => {
                               setLanguage()
                             }
                           }}
-                          className={style({
-                            fontWeight: lang == 'en' ? 700 : 500,
-                          })}
+                          className={styles.language('en', lang)}
                         >
                           EN
                         </div>
@@ -186,9 +117,7 @@ const Header = () => {
                               setLanguage()
                             }
                           }}
-                          className={style({
-                            fontWeight: lang == 'fr' ? 700 : 500,
-                          })}
+                          className={styles.language('fr', lang)}
                         >
                           FR
                         </div>
@@ -203,6 +132,91 @@ const Header = () => {
       }}
     </LanguageContext.Consumer>
   )
+}
+
+const styles = {
+  language: (selectedLang: 'fr' | 'en', lang: 'fr' | 'en') =>
+    style({
+      padding: rem(1),
+      fontWeight: lang == selectedLang ? 700 : 500,
+    }),
+  languageSwitcher: style({
+    ...csstips.horizontal,
+    ...csstips.endJustified,
+    ...csstips.horizontallySpaced(rem(1)),
+    width: percent(100),
+    $nest: {
+      '& > div:last-child': {
+        paddingRight: px(0),
+      },
+    },
+  }),
+  link: style({
+    ...csstips.flex,
+    ...csstips.centerCenter,
+  }),
+  menu: style(
+    ...Theme.breakpoints({
+      mobile: {
+        paddingLeft: Theme.paddings.mobile,
+        paddingRight: Theme.paddings.mobile,
+      },
+      desktop: {
+        paddingLeft: Theme.paddings.desktop,
+        paddingRight: Theme.paddings.desktop,
+      },
+    }),
+    {
+      ...csstips.flex,
+      ...csstips.vertical,
+      backgroundColor: Theme.colors.gold.fade(0.9).toString(),
+      overflowY: 'hidden',
+    }
+  ),
+  menuWrapper: (isOpen: Boolean = false) =>
+    style(
+      ...Theme.breakpoints({
+        mobile: { top: Theme.headerHeight.mobile },
+        desktop: { top: Theme.headerHeight.desktop },
+      }),
+      {
+        height: isOpen ? rem(20) : rem(0),
+        display: 'flex',
+        position: 'fixed',
+        right: px(0),
+        width: percent(100),
+        overflowY: 'hidden',
+        transition: 'height .5s ease',
+      }
+    ),
+  header: style(
+    ...Theme.breakpoints({
+      mobile: {
+        height: Theme.headerHeight.mobile,
+        marginLeft: Theme.paddings.mobile,
+        marginRight: Theme.paddings.mobile,
+      },
+      desktop: {
+        height: Theme.headerHeight.desktop,
+        marginLeft: Theme.paddings.desktop,
+        marginRight: Theme.paddings.desktop,
+      },
+    }),
+    {
+      ...csstips.flex,
+      ...csstips.betweenJustified,
+      ...csstips.center,
+      ...csstips.horizontal,
+    }
+  ),
+  headerWrapper: style({
+    ...csstips.flex,
+    position: 'fixed',
+    top: px(0),
+    width: percent(100),
+    background: Theme.colors.purple.fade(0.9).toString(),
+    zIndex: 100,
+  }),
 }
 
 export default Header

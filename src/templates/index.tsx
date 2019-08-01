@@ -4,7 +4,7 @@ import { graphql } from 'gatsby'
 import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
-import { Colors } from '../theme'
+import { colors } from '../theme'
 interface Props {
   data: {
     contentfulInformations: {
@@ -81,7 +81,7 @@ export default function Home({ data }: Props) {
               'fas fa-angle-double-down',
               style({
                 fontSize: rem(3),
-                color: Colors.gold.toString(),
+                color: colors.gold.toString(),
               })
             )}
           ></i>

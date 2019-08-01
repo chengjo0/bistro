@@ -5,6 +5,7 @@ import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
 import { LanguageContext } from '../context'
+import * as Theme from '../theme'
 
 interface Props {
   data: {
@@ -67,14 +68,9 @@ export default ({ data }: Props) => {
           },
         })}
       >
-        <h1
-          className={style({
-            fontFamily: 'Oswald',
-            fontWeight: 500,
-          })}
-        >
+        <div className={Theme.styles.title}>
           {value.lang == 'fr' ? 'Horaires:' : 'Hours:'}
-        </h1>
+        </div>
         <div>
           {data.contentfulInformations.hours.map(openingHour => (
             <div
@@ -84,7 +80,6 @@ export default ({ data }: Props) => {
                 $nest: {
                   '& > div:first-child': {
                     paddingRight: rem(1),
-                    // fontFamily: 'Montserrat, sans-serif',
                     fontWeight: 'bold',
                   },
                 },
@@ -95,12 +90,7 @@ export default ({ data }: Props) => {
             </div>
           ))}
         </div>
-        <h1
-          className={style({
-            fontFamily: 'Oswald',
-            fontWeight: 500,
-          })}
-        >
+        <h1 className={Theme.styles.title}>
           {value.lang == 'fr' ? 'Adresse & Contact:' : 'Address & Contact:'}
         </h1>
         <div>
