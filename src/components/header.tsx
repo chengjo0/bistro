@@ -6,19 +6,12 @@ import { classes, style } from 'typestyle'
 import { ContextType, LanguageContext } from '../context'
 import * as Theme from '../theme'
 
-type NodeType = {
-  node: {
-    page: Array<{
-      title: String
-      linkTo: String
-    }>
-    node_locale: 'en' | 'fr'
-  }
-}
-
 interface LinkType {
-  allContentfulListeDePages: {
-    edges: Array<NodeType>
+  fr: {
+    pageList: Array<{ title: String; url: String; inHeader?: Boolean }>
+  }
+  en: {
+    pageList: Array<{ title: String; url: String; inHeader?: Boolean }>
   }
 }
 
@@ -30,24 +23,45 @@ const Header = () => {
         return (
           <StaticQuery
             query={graphql`
-              query GetPages {
-                allContentfulListeDePages {
-                  edges {
-                    node {
-                      page {
-                        title
-                        linkTo
-                      }
-                      node_locale
+              query GetLinks {
+                fr: contentfulPages(
+                  node_locale: { eq: "fr" }
+                  contentful_id: { eq: "73n7B0VXfnqMguKQR1bK51" }
+                ) {
+                  pageList {
+                    ... on ContentfulCategorie {
+                      id
+                      url
+                    }
+                    ... on ContentfulPage {
+                      id
+                      title
+                      url
+                      inHeader
+                    }
+                  }
+                }
+                en: contentfulPages(
+                  node_locale: { eq: "en" }
+                  contentful_id: { eq: "73n7B0VXfnqMguKQR1bK51" }
+                ) {
+                  pageList {
+                    ... on ContentfulCategorie {
+                      id
+                      url
+                    }
+                    ... on ContentfulPage {
+                      id
+                      title
+                      url
+                      inHeader
                     }
                   }
                 }
               }
             `}
             render={(data: LinkType) => {
-              const links = data.allContentfulListeDePages.edges.find(
-                edge => edge.node.node_locale === lang
-              )
+              const links = data[lang]
 
               if (!links) {
                 return
@@ -57,13 +71,7 @@ const Header = () => {
                 <header className={styles.headerWrapper}>
                   <div className={styles.header}>
                     <Link
-                      to={String(
-                        links.node.page.reduce((acc, val) => {
-                          return val.title === 'Home' || val.title === 'Accueil'
-                            ? val
-                            : acc
-                        }).linkTo
-                      )}
+                      to={lang === 'en' ? '/en' : '/'}
                       className={Theme.styles.brand}
                     >
                       Bistro d'Asie
@@ -84,20 +92,32 @@ const Header = () => {
                   </div>
                   <div className={styles.menuWrapper(openMenu)}>
                     <div className={styles.menu}>
-                      {links.node.page.map((node, index) => (
-                        <Link
-                          key={`link-${index}`}
-                          to={String(node.linkTo)}
-                          className={styles.link}
-                        >
-                          <h3>{String(node.title)}</h3>
-                        </Link>
-                      ))}
+                      {links.pageList.map((page, index) => {
+                        if (page.inHeader) {
+                          return (
+                            <Link
+                              key={`link-${index}`}
+                              to={String(page.url)}
+                              className={styles.link}
+                            >
+                              <h3>{String(page.title)}</h3>
+                            </Link>
+                          )
+                        }
+                      })}
                       <div className={styles.languageSwitcher}>
                         <div
                           onClick={() => {
                             if (setLanguage && lang !== 'en') {
-                              navigate(`/en/${window.location.pathname}`)
+                              let pos = -1
+                              pos = links.pageList.findIndex(
+                                page => page.url === window.location.pathname
+                              )
+                              navigate(
+                                pos >= 0
+                                  ? String(data['en'].pageList[pos].url)
+                                  : '/en'
+                              )
                               setLanguage()
                             }
                           }}
@@ -108,11 +128,14 @@ const Header = () => {
                         <div
                           onClick={() => {
                             if (setLanguage && lang !== 'fr') {
+                              let pos = -1
+                              pos = links.pageList.findIndex(
+                                page => page.url === window.location.pathname
+                              )
                               navigate(
-                                `${window.location.pathname
-                                  .split('')
-                                  .slice(3)
-                                  .join('')}`
+                                pos >= 0
+                                  ? String(data['fr'].pageList[pos].url)
+                                  : '/'
                               )
                               setLanguage()
                             }
@@ -180,7 +203,7 @@ const styles = {
         desktop: { top: Theme.headerHeight.desktop },
       }),
       {
-        height: isOpen ? rem(20) : rem(0),
+        height: isOpen ? rem(25) : rem(0),
         display: 'flex',
         position: 'fixed',
         right: px(0),
