@@ -1,25 +1,42 @@
 import { color, rem, px, rotateX, deg, percent } from 'csx'
-import { style } from 'typestyle'
+import { style, types, media } from 'typestyle'
 
-const colors = {
+interface IBreakpoints {
+  mobile: types.NestedCSSProperties
+  desktop: types.NestedCSSProperties
+}
+
+export function breakpoints(bps: IBreakpoints): types.NestedCSSProperties[] {
+  return [
+    media({ type: 'screen', minWidth: px(0), maxWidth: px(1024) }, bps.mobile),
+    media({ type: 'screen', minWidth: px(1025) }, bps.desktop),
+  ]
+}
+
+export const colors = {
   purple: color('#47243c'),
   darkPurple: color('#3F2324'),
   gold: color('#d0b084'),
   taupe: color('#CEC5B6'),
 }
 
-const fonts = {
+export const fonts = {
   Montserrat: 'Montserrat, sans-serif',
 }
 
-const fontSizes = {
+export const fontSizes = {
   title: rem(1.6),
   textLarge: rem(2),
   textMedium: px(20),
   textSmall: rem(1),
 }
 
-const styles = {
+export const paddings = {
+  desktop: px(250),
+  mobile: px(25),
+}
+
+export const styles = {
   brand: style({
     fontFamily: fonts.Montserrat,
     fontWeight: 600,
@@ -61,5 +78,3 @@ const styles = {
       height: openMenu ? rem(20) : rem(0),
     }),
 }
-
-export { colors, styles }

@@ -22,9 +22,13 @@ interface LinkType {
   }
 }
 
+const headerHeight = {
+  mobile: rem(5),
+  desktop: rem(6),
+}
+
 const Header = () => {
   const [openMenu, setOpenMenu] = React.useState(false)
-
   return (
     <LanguageContext.Consumer>
       {({ lang, setLanguage }: ContextType) => {
@@ -66,22 +70,26 @@ const Header = () => {
                   })}
                 >
                   <div
-                    className={style({
-                      ...csstips.flex,
-                      ...csstips.betweenJustified,
-                      ...csstips.center,
-                      ...csstips.horizontal,
-                      height: rem(4),
-                      marginLeft: px(25),
-                      marginRight: px(25),
-                      $nest: {
-                        '@media screen and (min-width: 500px)': {
-                          height: rem(6),
-                          marginLeft: px(250),
-                          marginRight: px(250),
+                    className={style(
+                      ...Theme.breakpoints({
+                        mobile: {
+                          height: headerHeight.mobile,
+                          marginLeft: Theme.paddings.mobile,
+                          marginRight: Theme.paddings.mobile,
                         },
-                      },
-                    })}
+                        desktop: {
+                          height: headerHeight.desktop,
+                          marginLeft: Theme.paddings.desktop,
+                          marginRight: Theme.paddings.desktop,
+                        },
+                      }),
+                      {
+                        ...csstips.flex,
+                        ...csstips.betweenJustified,
+                        ...csstips.center,
+                        ...csstips.horizontal,
+                      }
+                    )}
                   >
                     <Link
                       to={String(
@@ -110,29 +118,43 @@ const Header = () => {
                     </div>
                   </div>
                   <div
-                    className={style({
-                      height: openMenu ? rem(20) : rem(0),
-                      display: 'flex',
-                      position: 'fixed',
-                      top: rem(4),
-                      right: px(0),
-                      width: percent(100),
-                      overflowY: 'hidden',
-                      transition: 'height .5s ease',
-                      $nest: {
-                        '@media screen and (min-width: 500px)': {
-                          top: rem(6),
-                        },
-                      },
-                    })}
+                    className={style(
+                      ...Theme.breakpoints({
+                        mobile: { top: headerHeight.mobile },
+                        desktop: { top: headerHeight.desktop },
+                      }),
+                      {
+                        height: openMenu ? rem(20) : rem(0),
+                        display: 'flex',
+                        position: 'fixed',
+                        right: px(0),
+                        width: percent(100),
+                        overflowY: 'hidden',
+                        transition: 'height .5s ease',
+                      }
+                    )}
                   >
                     <div
-                      className={style({
-                        ...csstips.flex,
-                        ...csstips.vertical,
-                        backgroundColor: Theme.colors.gold.fade(0.9).toString(),
-                        overflowY: 'hidden',
-                      })}
+                      className={style(
+                        ...Theme.breakpoints({
+                          mobile: {
+                            paddingLeft: Theme.paddings.mobile,
+                            paddingRight: Theme.paddings.mobile,
+                          },
+                          desktop: {
+                            paddingLeft: Theme.paddings.desktop,
+                            paddingRight: Theme.paddings.desktop,
+                          },
+                        }),
+                        {
+                          ...csstips.flex,
+                          ...csstips.vertical,
+                          backgroundColor: Theme.colors.gold
+                            .fade(0.9)
+                            .toString(),
+                          overflowY: 'hidden',
+                        }
+                      )}
                     >
                       {links.node.page.map((node, index) => (
                         <Link
@@ -182,6 +204,7 @@ const Header = () => {
                           }}
                           className={style({
                             padding: rem(1),
+                            paddingRight: px(0),
                             fontWeight: lang == 'fr' ? 700 : 500,
                           })}
                         >
