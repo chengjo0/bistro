@@ -151,7 +151,6 @@ const Header = () => {
                           ...csstips.horizontal,
                           ...csstips.endJustified,
                           ...csstips.horizontallySpaced(rem(1)),
-                          marginRight: rem(2),
                           width: percent(100),
                         })}
                       >
@@ -163,6 +162,7 @@ const Header = () => {
                             }
                           }}
                           className={style({
+                            padding: rem(1),
                             fontWeight: lang == 'en' ? 700 : 500,
                           })}
                         >
@@ -181,6 +181,7 @@ const Header = () => {
                             }
                           }}
                           className={style({
+                            padding: rem(1),
                             fontWeight: lang == 'fr' ? 700 : 500,
                           })}
                         >
