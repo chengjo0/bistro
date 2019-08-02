@@ -105,8 +105,8 @@ export default ({ data }: Props) => {
 }
 
 export const query = graphql`
-  query ContactPage($lang: String) {
-    contentfulInformations(node_locale: { eq: $lang }) {
+  query ContactPage($locale: String) {
+    contentfulInformations(node_locale: { eq: $locale }) {
       address
       hours {
         openForLunch

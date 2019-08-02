@@ -4,9 +4,12 @@ import { graphql, Link } from 'gatsby'
 import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
-import { colors } from '../theme'
+import { colors, paddings, fontSizes } from '../theme'
 interface Props {
   data: {
+    hero: {
+      slogan: String
+    }
     contentfulInformations: {
       picture: {
         fluid: {
@@ -51,14 +54,19 @@ export default function Home({ data }: Props) {
           className={style({
             ...csstips.centerCenter,
             ...csstips.vertical,
-            ...csstips.verticallySpaced(rem(1)),
             gridColumn: '1/3',
             gridRow: '1/3',
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("${data.contentfulInformations.picture.fluid.src}")`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url("${data.contentfulInformations.picture.fluid.src}")`,
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             color: 'white',
+            textAlign: 'center',
+            fontSize: fontSizes.textLarge,
+            fontFamily: 'Oswald, sans-serif',
+            fontWeight: 500,
+            lineHeight: rem(4),
+            padding: paddings.mobile,
             $nest: {
               '& > div:first-child': {
                 paddingBottom: rem(1),
@@ -67,11 +75,13 @@ export default function Home({ data }: Props) {
                 paddingTop: rem(5),
               },
               '@media screen and (min-width: 500px)': {
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("${data.contentfulInformations.picture.fluid.src}")`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url("${data.contentfulInformations.picture.fluid.src}")`,
               },
             },
           })}
-        ></div>
+        >
+          {data.hero.slogan}
+        </div>
         <div
           className={style({
             ...csstips.centerCenter,
@@ -114,6 +124,9 @@ export default function Home({ data }: Props) {
 
 export const query = graphql`
   query IndexPage($locale: String) {
+    hero: contentfulInformations(node_locale: { eq: $locale }) {
+      slogan
+    }
     contentfulInformations {
       picture {
         fluid {
