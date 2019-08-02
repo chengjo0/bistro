@@ -1,6 +1,6 @@
 import * as csstips from 'csstips'
 import { percent, rem } from 'csx'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
@@ -13,6 +13,13 @@ interface Props {
           src: String
         }
       }
+    }
+    contentfulPages: {
+      pageList: Array<{
+        id: String
+        title: String
+        url: String
+      }>
     }
   }
 }
@@ -92,20 +99,34 @@ export default function Home({ data }: Props) {
           height: percent(50),
           ...csstips.flex,
           ...csstips.centerCenter,
+          ...csstips.vertical,
         })}
       >
-        Comming soon...
+        {data.contentfulPages.pageList.map(page => (
+          <Link key={String(page.title)} to={String(page.url)}>
+            {page.title}
+          </Link>
+        ))}
       </div>
     </Layout>
   )
 }
 
 export const query = graphql`
-  query IndexPage {
+  query IndexPage($locale: String) {
     contentfulInformations {
       picture {
         fluid {
           src
+        }
+      }
+    }
+    contentfulPages(node_locale: { eq: $locale }) {
+      pageList {
+        ... on ContentfulCategorie {
+          id
+          title
+          url
         }
       }
     }

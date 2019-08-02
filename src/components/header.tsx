@@ -1,6 +1,6 @@
 import * as csstips from 'csstips'
-import { percent, px, rem } from 'csx'
 import { graphql, Link, navigate, StaticQuery } from 'gatsby'
+import { percent, px, rem } from 'csx'
 import * as React from 'react'
 import { classes, style } from 'typestyle'
 import { LanguageContext } from '../context'
@@ -69,7 +69,7 @@ const Header = () => {
                   <div className={styles.header}>
                     <Link
                       to={lang === 'en' ? '/en/home' : '/'}
-                      className={Theme.styles.brand}
+                      className={styles.brand}
                     >
                       Bistro d'Asie
                     </Link>
@@ -155,6 +155,13 @@ const Header = () => {
 }
 
 const styles = {
+  brand: style({
+    fontFamily: Theme.fonts.Montserrat,
+    fontWeight: 600,
+    fontSize: Theme.fontSizes.title,
+    textTransform: 'uppercase',
+    color: Theme.colors.gold.toString(),
+  }),
   language: (locale: Language, currentLocale: Language) =>
     style({
       padding: rem(1),
@@ -234,7 +241,7 @@ const styles = {
     position: 'fixed',
     top: px(0),
     width: percent(100),
-    background: Theme.colors.purple.fade(0.9).toString(),
+    background: Theme.colors.purple.toString(),
     zIndex: 100,
   }),
 }
