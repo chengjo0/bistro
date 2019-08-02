@@ -1,42 +1,30 @@
-import React, { useEffect } from 'react'
-import { navigate } from 'gatsby'
+import React from 'react'
+import { ContextType, Language } from './types'
 
 interface Props {
   children: React.ReactNode
 }
 
-type ContextType = {
-  lang: 'fr' | 'en'
-  setLanguage?: () => void
-}
-
 const defaultState: ContextType = {
   lang: 'fr',
 }
+
 const LanguageContext = React.createContext<ContextType>(defaultState)
 
 export default function({ children }: Props) {
-  const [lang, setLanguage] = React.useState('fr')
+  const isVisitingEnglishPage = window.location.pathname.indexOf('en') >= 0
 
-  useEffect(() => {
-    const lang = sessionStorage.getItem('lang') as 'en' | 'fr' | undefined
-    if (lang) {
-      setLanguage(lang)
-      if (lang === 'en' && window.location.pathname.indexOf('en') < 0) {
-        navigate(`/en${window.location.pathname}`)
-      }
-    } else {
-      sessionStorage.setItem('lang', 'fr')
-    }
-  })
+  const [lang, setLanguage] = React.useState<Language>(
+    isVisitingEnglishPage ? 'en' : 'fr'
+  )
 
   return (
     <LanguageContext.Provider
       value={{
-        lang: lang as 'fr' | 'en',
+        lang,
         setLanguage: () => {
-          sessionStorage.setItem('lang', lang == 'fr' ? 'en' : 'fr')
-          setLanguage(lang == 'fr' ? 'en' : 'fr')
+          const newSessionLocale = lang == 'fr' ? 'en' : 'fr'
+          setLanguage(newSessionLocale)
         },
       }}
     >

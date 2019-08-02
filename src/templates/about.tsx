@@ -5,9 +5,9 @@ import { style } from 'typestyle'
 import { percent } from 'csx'
 
 export default () => (
-  <Layout pageName="404" withPadding>
+  <Layout pageName="About" withPadding>
     <div className={style({ ...csstips.centerCenter, height: percent(100) })}>
-      404, you got lost...
+      Coming soon...
     </div>
   </Layout>
 )
