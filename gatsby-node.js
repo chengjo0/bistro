@@ -7,7 +7,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/`,
     component: path.resolve(`src/templates/index.tsx`),
     context: {
-      lang: 'fr',
+      locale: 'fr',
     },
   })
 
@@ -15,7 +15,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/en/home`,
     component: path.resolve(`src/templates/index.tsx`),
     context: {
-      lang: 'en',
+      locale: 'en',
     },
   })
 
@@ -23,7 +23,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/menus`,
     component: path.resolve(`src/templates/menus.tsx`),
     context: {
-      lang: 'fr',
+      locale: 'fr',
     },
   })
 
@@ -31,7 +31,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/en/menus`,
     component: path.resolve(`src/templates/menus.tsx`),
     context: {
-      lang: 'en',
+      locale: 'en',
     },
   })
 
@@ -39,7 +39,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/plats`,
     component: path.resolve(`src/templates/categories.tsx`),
     context: {
-      lang: 'fr',
+      locale: 'fr',
     },
   })
 
@@ -47,7 +47,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/en/dishes`,
     component: path.resolve(`src/templates/categories.tsx`),
     context: {
-      lang: 'en',
+      locale: 'en',
     },
   })
 
@@ -55,7 +55,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/contact`,
     component: path.resolve(`src/templates/contacts.tsx`),
     context: {
-      lang: 'fr',
+      locale: 'fr',
     },
   })
 
@@ -63,7 +63,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/en/contact`,
     component: path.resolve(`src/templates/contacts.tsx`),
     context: {
-      lang: 'en',
+      locale: 'en',
     },
   })
 
@@ -71,7 +71,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/notre-histoire`,
     component: path.resolve(`src/templates/about.tsx`),
     context: {
-      lang: 'fr',
+      locale: 'fr',
     },
   })
 
@@ -79,7 +79,7 @@ exports.createPages = ({ graphql, actions }) => {
     path: `/en/about`,
     component: path.resolve(`src/templates/about.tsx`),
     context: {
-      lang: 'fr',
+      locale: 'fr',
     },
   })
 

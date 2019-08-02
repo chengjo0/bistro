@@ -29,9 +29,9 @@ export default ({ data }: Props) => (
 )
 
 export const query = graphql`
-  query GetDishesPages($lang: String) {
+  query GetDishesPages($locale: String) {
     contentfulPages(
-      node_locale: { eq: $lang }
+      node_locale: { eq: $locale }
       contentful_id: { eq: "1i7wC5nQiERnHz4LNzxkpP" }
     ) {
       pageList {
