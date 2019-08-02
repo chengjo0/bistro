@@ -67,6 +67,22 @@ exports.createPages = ({ graphql, actions }) => {
     },
   })
 
+  createPage({
+    path: `/notre-histoire`,
+    component: path.resolve(`src/templates/about.tsx`),
+    context: {
+      lang: 'fr',
+    },
+  })
+
+  createPage({
+    path: `/en/about`,
+    component: path.resolve(`src/templates/about.tsx`),
+    context: {
+      lang: 'fr',
+    },
+  })
+
   createRedirect({
     fromPath: '/en/404',
     toPath: '/404',
