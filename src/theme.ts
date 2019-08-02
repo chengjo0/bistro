@@ -14,10 +14,16 @@ export function breakpoints(bps: IBreakpoints): types.NestedCSSProperties[] {
 }
 
 export const colors = {
-  purple: color('#47243c'),
+  purple: color('#3b1f32'),
   darkPurple: color('#3F2324'),
   gold: color('#d0b084'),
   taupe: color('#CEC5B6'),
+  white: color('#e2e2e2'),
+  black: color('#0000'),
+}
+
+export const mixins = {
+  lightGold: colors.gold.lighten(0.2),
 }
 
 export const fonts = {
@@ -42,13 +48,6 @@ export const headerHeight = {
 }
 
 export const styles = {
-  brand: style({
-    fontFamily: fonts.Montserrat,
-    fontWeight: 600,
-    fontSize: fontSizes.title,
-    textTransform: 'uppercase',
-    color: colors.gold.toString(),
-  }),
   title: style({
     fontFamily: 'Oswald, sans-serif',
     fontWeight: 500,
