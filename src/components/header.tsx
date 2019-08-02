@@ -3,10 +3,11 @@ import { percent, px, rem } from 'csx'
 import { graphql, Link, navigate, StaticQuery } from 'gatsby'
 import * as React from 'react'
 import { classes, style } from 'typestyle'
-import { ContextType, LanguageContext } from '../context'
+import { LanguageContext } from '../context'
+import { ContextType, Language } from '../types'
 import * as Theme from '../theme'
 
-interface LinkType {
+interface Pages {
   fr: {
     pageList: Array<{ title: String; url: String; inHeader?: Boolean }>
   }
@@ -60,18 +61,14 @@ const Header = () => {
                 }
               }
             `}
-            render={(data: LinkType) => {
-              const links = data[lang]
-
-              if (!links) {
-                return
-              }
+            render={(pages: Pages) => {
+              const pagesForLocale = pages[lang]
 
               return (
                 <header className={styles.headerWrapper}>
                   <div className={styles.header}>
                     <Link
-                      to={lang === 'en' ? '/en' : '/'}
+                      to={lang === 'en' ? '/en/home' : '/'}
                       className={Theme.styles.brand}
                     >
                       Bistro d'Asie
@@ -92,7 +89,7 @@ const Header = () => {
                   </div>
                   <div className={styles.menuWrapper(openMenu)}>
                     <div className={styles.menu}>
-                      {links.pageList.map((page, index) => {
+                      {pagesForLocale.pageList.map((page, index) => {
                         if (page.inHeader) {
                           return (
                             <Link
@@ -110,13 +107,13 @@ const Header = () => {
                           onClick={() => {
                             if (setLanguage && lang !== 'en') {
                               let pos = -1
-                              pos = links.pageList.findIndex(
+                              pos = pagesForLocale.pageList.findIndex(
                                 page => page.url === window.location.pathname
                               )
                               navigate(
                                 pos >= 0
-                                  ? String(data['en'].pageList[pos].url)
-                                  : '/en'
+                                  ? String(pages['en'].pageList[pos].url)
+                                  : '/en/home'
                               )
                               setLanguage()
                             }
@@ -129,12 +126,12 @@ const Header = () => {
                           onClick={() => {
                             if (setLanguage && lang !== 'fr') {
                               let pos = -1
-                              pos = links.pageList.findIndex(
+                              pos = pagesForLocale.pageList.findIndex(
                                 page => page.url === window.location.pathname
                               )
                               navigate(
                                 pos >= 0
-                                  ? String(data['fr'].pageList[pos].url)
+                                  ? String(pages['fr'].pageList[pos].url)
                                   : '/'
                               )
                               setLanguage()
@@ -158,10 +155,10 @@ const Header = () => {
 }
 
 const styles = {
-  language: (selectedLang: 'fr' | 'en', lang: 'fr' | 'en') =>
+  language: (locale: Language, currentLocale: Language) =>
     style({
       padding: rem(1),
-      fontWeight: lang == selectedLang ? 700 : 500,
+      fontWeight: currentLocale == locale ? 700 : 500,
     }),
   languageSwitcher: style({
     ...csstips.horizontal,
