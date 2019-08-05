@@ -6,7 +6,7 @@ import Layout from '../components/layout'
 
 interface Props {
   pageContext: {
-    title: String
+    pageName: String
     dishes: Array<{
       name: String
       description?: String
@@ -17,9 +17,9 @@ interface Props {
 }
 
 export default ({ pageContext }: Props) => {
-  const { dishes, title } = pageContext
+  const { dishes, pageName } = pageContext
   return (
-    <Layout pageName={title} withPadding>
+    <Layout pageName={pageName} withPadding>
       <div
         className={style({
           ...csstips.centerCenter,

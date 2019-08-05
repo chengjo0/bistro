@@ -42,6 +42,7 @@ exports.createPages = ({ graphql, actions }) => {
     component: path.resolve(`src/templates/categories.tsx`),
     context: {
       locale: 'fr',
+      pageName: 'Plats',
     },
   })
 
@@ -50,6 +51,7 @@ exports.createPages = ({ graphql, actions }) => {
     component: path.resolve(`src/templates/categories.tsx`),
     context: {
       locale: 'en',
+      pageName: 'Dishes',
     },
   })
 
@@ -74,6 +76,7 @@ exports.createPages = ({ graphql, actions }) => {
     component: path.resolve(`src/templates/about.tsx`),
     context: {
       locale: 'fr',
+      pageName: 'Notre histoire',
     },
   })
 
@@ -82,6 +85,7 @@ exports.createPages = ({ graphql, actions }) => {
     component: path.resolve(`src/templates/about.tsx`),
     context: {
       locale: 'fr',
+      pageName: 'About',
     },
   })
 
@@ -136,7 +140,7 @@ exports.createPages = ({ graphql, actions }) => {
         component: path.resolve(`src/templates/dishes.tsx`),
         context: {
           dishes: page.plats,
-          title: page.title,
+          pageName: page.title,
         },
       })
     })
@@ -147,7 +151,7 @@ exports.createPages = ({ graphql, actions }) => {
         component: path.resolve(`src/templates/dishes.tsx`),
         context: {
           dishes: page.plats,
-          title: page.title,
+          pageName: page.title,
         },
       })
     })
