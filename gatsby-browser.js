@@ -9,7 +9,6 @@ cssRule('html, body', {
   padding: 0,
   width: percent(100),
   height: percent(100),
-  backgroundColor: Theme.colors.white.toString(),
 })
 
 cssRule('html', {

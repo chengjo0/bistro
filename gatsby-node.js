@@ -55,20 +55,59 @@ exports.createPages = ({ graphql, actions }) => {
     },
   })
 
-  createPage({
-    path: `/contact`,
-    component: path.resolve(`src/templates/contacts.tsx`),
-    context: {
-      locale: 'fr',
-    },
-  })
+  graphql(`
+    query getContactMessages {
+      fr: contentfulMessages(node_locale: { eq: "fr" }) {
+        messages {
+          text
+          slug
+        }
+      }
+      en: contentfulMessages(node_locale: { eq: "en" }) {
+        messages {
+          text
+          slug
+        }
+      }
+    }
+  `).then(result => {
+    createPage({
+      path: `/contact`,
+      component: path.resolve(`src/templates/contacts.tsx`),
+      context: {
+        locale: 'fr',
+        titles: {
+          openingHours: result.data.fr.messages.find(
+            msg => msg.slug === 'opening-hour-message'
+          ).text,
+          closedMessage: result.data.fr.messages.find(
+            msg => msg.slug === 'closed-restaurant-message'
+          ).text,
+          contactMessage: result.data.fr.messages.find(
+            msg => msg.slug === 'contact-message'
+          ).text,
+        },
+      },
+    })
 
-  createPage({
-    path: `/en/contact`,
-    component: path.resolve(`src/templates/contacts.tsx`),
-    context: {
-      locale: 'en',
-    },
+    createPage({
+      path: `/en/contact`,
+      component: path.resolve(`src/templates/contacts.tsx`),
+      context: {
+        locale: 'en',
+        titles: {
+          openingHours: result.data.en.messages.find(
+            msg => msg.slug === 'opening-hour-message'
+          ).text,
+          closedMessage: result.data.en.messages.find(
+            msg => msg.slug === 'closed-restaurant-message'
+          ).text,
+          contactMessage: result.data.en.messages.find(
+            msg => msg.slug === 'contact-message'
+          ).text,
+        },
+      },
+    })
   })
 
   createPage({
