@@ -3,6 +3,7 @@ import * as React from 'react'
 import Helmet from 'react-helmet'
 import { style } from 'typestyle'
 import Header from './header'
+import * as Theme from '../theme'
 
 interface Props {
   children: React.ReactNode
@@ -13,10 +14,19 @@ interface Props {
 export default ({ pageName, withPadding = false, children }: Props) => {
   return (
     <div
-      className={style({
-        height: viewHeight(100),
-        paddingTop: rem(withPadding ? 4 : 0),
-      })}
+      className={style(
+        ...Theme.breakpoints({
+          mobile: {
+            paddingTop: withPadding ? Theme.headerHeight.mobile : rem(0),
+          },
+          desktop: {
+            paddingTop: withPadding ? Theme.headerHeight.desktop : rem(0),
+          },
+        }),
+        {
+          height: viewHeight(100),
+        }
+      )}
     >
       <Helmet>
         <title>Bistro d'Asie | {String(pageName)}</title>

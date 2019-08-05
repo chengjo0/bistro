@@ -6,7 +6,7 @@ interface Props {
 }
 
 const defaultState: ContextType = {
-  lang: 'fr',
+  locale: 'fr',
 }
 
 const LanguageContext = React.createContext<ContextType>(defaultState)
@@ -14,17 +14,17 @@ const LanguageContext = React.createContext<ContextType>(defaultState)
 export default function({ children }: Props) {
   const isVisitingEnglishPage = window.location.pathname.indexOf('en') >= 0
 
-  const [lang, setLanguage] = React.useState<Language>(
+  const [locale, setLocale] = React.useState<Language>(
     isVisitingEnglishPage ? 'en' : 'fr'
   )
 
   return (
     <LanguageContext.Provider
       value={{
-        lang,
-        setLanguage: () => {
-          const newSessionLocale = lang == 'fr' ? 'en' : 'fr'
-          setLanguage(newSessionLocale)
+        locale: locale,
+        setLocale: () => {
+          const newSessionLocale = locale == 'fr' ? 'en' : 'fr'
+          setLocale(newSessionLocale)
         },
       }}
     >

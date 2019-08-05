@@ -20,7 +20,7 @@ const Header = () => {
   const [openMenu, setOpenMenu] = React.useState(false)
   return (
     <LanguageContext.Consumer>
-      {({ lang, setLanguage }: ContextType) => {
+      {({ locale: lang, setLocale }: ContextType) => {
         return (
           <StaticQuery
             query={graphql`
@@ -105,7 +105,7 @@ const Header = () => {
                       <div className={styles.languageSwitcher}>
                         <div
                           onClick={() => {
-                            if (setLanguage && lang !== 'en') {
+                            if (setLocale && lang !== 'en') {
                               let pos = -1
                               pos = pagesForLocale.pageList.findIndex(
                                 page => page.url === window.location.pathname
@@ -115,7 +115,7 @@ const Header = () => {
                                   ? String(pages['en'].pageList[pos].url)
                                   : '/en/home'
                               )
-                              setLanguage()
+                              setLocale()
                             }
                           }}
                           className={styles.language('en', lang)}
@@ -124,7 +124,7 @@ const Header = () => {
                         </div>
                         <div
                           onClick={() => {
-                            if (setLanguage && lang !== 'fr') {
+                            if (setLocale && lang !== 'fr') {
                               let pos = -1
                               pos = pagesForLocale.pageList.findIndex(
                                 page => page.url === window.location.pathname
@@ -134,7 +134,7 @@ const Header = () => {
                                   ? String(pages['fr'].pageList[pos].url)
                                   : '/'
                               )
-                              setLanguage()
+                              setLocale()
                             }
                           }}
                           className={styles.language('fr', lang)}
