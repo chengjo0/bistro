@@ -8,6 +8,7 @@ exports.createPages = ({ graphql, actions }) => {
     component: path.resolve(`src/templates/index.tsx`),
     context: {
       locale: 'fr',
+      pageName: 'Accueil',
     },
   })
 
@@ -16,6 +17,7 @@ exports.createPages = ({ graphql, actions }) => {
     component: path.resolve(`src/templates/index.tsx`),
     context: {
       locale: 'en',
+      pageName: 'Home',
     },
   })
 

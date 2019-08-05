@@ -6,6 +6,9 @@ import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
 import * as Theme from '../theme'
 interface Props {
+  pageContext: {
+    pageName: 'Accueil' | 'Home'
+  }
   data: {
     hero: {
       slogan: String
@@ -33,9 +36,9 @@ const pulse = keyframes({
   '100%': { opacity: 0 },
 })
 
-export default function Home({ data }: Props) {
+export default function Home({ data, pageContext }: Props) {
   return (
-    <Layout pageName="Welcome">
+    <Layout pageName={pageContext.pageName}>
       <div
         className={style(
           ...Theme.breakpoints({
