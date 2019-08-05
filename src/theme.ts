@@ -18,7 +18,6 @@ export const colors = {
   darkPurple: color('#3F2324'),
   gold: color('#d0b084'),
   taupe: color('#CEC5B6'),
-  white: color('#e2e2e2'),
   black: color('#000'),
 }
 
