@@ -14,10 +14,13 @@ interface Props {
       }>
     }
   }
+  pageContext: {
+    pageName: String
+  }
 }
 
-export default ({ data }: Props) => (
-  <Layout pageName="Menu" withPadding>
+export default ({ data, pageContext }: Props) => (
+  <Layout pageName={pageContext.pageName} withPadding>
     <div className={style({ ...csstips.centerCenter, height: percent(100) })}>
       {data.contentfulPages.pageList.map(category => (
         <Link key={String(category.title)} to={`${category.url}`}>
