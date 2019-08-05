@@ -4,7 +4,7 @@ import { graphql, Link } from 'gatsby'
 import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
 import Layout from '../components/layout'
-import { colors, paddings, fontSizes } from '../theme'
+import * as Theme from '../theme'
 interface Props {
   data: {
     hero: {
@@ -37,48 +37,64 @@ export default function Home({ data }: Props) {
   return (
     <Layout pageName="Welcome">
       <div
-        className={style({
-          display: 'grid',
-          height: percent(90),
-          width: percent(100),
-          gridTemplateColumns: `auto ${percent(50)}`,
-          gridTemplateRows: `auto ${percent(15)}`,
-          $nest: {
-            '@media screen and (min-width: 500px)': {
+        className={style(
+          ...Theme.breakpoints({
+            mobile: {
+              gridTemplateColumns: `auto ${percent(50)}`,
+            },
+            desktop: {
               gridTemplateColumns: 'auto 40%',
             },
-          },
-        })}
+          }),
+          {
+            display: 'grid',
+            height: percent(90),
+            width: percent(100),
+            gridTemplateRows: `auto ${percent(15)}`,
+          }
+        )}
       >
         <div
-          className={style({
-            ...csstips.centerCenter,
-            ...csstips.vertical,
-            gridColumn: '1/3',
-            gridRow: '1/3',
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url("${data.contentfulInformations.picture.fluid.src}")`,
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            color: 'white',
-            textAlign: 'center',
-            fontSize: fontSizes.textLarge,
-            fontFamily: 'Oswald, sans-serif',
-            fontWeight: 500,
-            lineHeight: rem(4),
-            padding: paddings.mobile,
-            $nest: {
-              '& > div:first-child': {
-                paddingBottom: rem(1),
+          className={style(
+            ...Theme.breakpoints({
+              mobile: {
+                padding: Theme.paddings.mobile,
               },
-              '& > div:last-child': {
-                paddingTop: rem(5),
+              desktop: {
+                padding: Theme.paddings.desktop,
               },
-              '@media screen and (min-width: 500px)': {
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url("${data.contentfulInformations.picture.fluid.src}")`,
+            }),
+            {
+              ...csstips.centerCenter,
+              ...csstips.vertical,
+              gridColumn: '1/3',
+              gridRow: '1/3',
+              backgroundImage: `linear-gradient(${Theme.colors.black
+                .fade(0.7)
+                .toString()}, ${Theme.colors.black
+                .fade(0.4)
+                .toString()}), url("${
+                data.contentfulInformations.picture.fluid.src
+              }")`,
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              color: 'white',
+              textAlign: 'center',
+              fontSize: Theme.fontSizes.textLarge,
+              fontFamily: Theme.fonts.title,
+              fontWeight: 500,
+              lineHeight: rem(4),
+              $nest: {
+                '& > div:first-child': {
+                  paddingBottom: rem(1),
+                },
+                '& > div:last-child': {
+                  paddingTop: rem(5),
+                },
               },
-            },
-          })}
+            }
+          )}
         >
           {data.hero.slogan}
         </div>
@@ -98,7 +114,7 @@ export default function Home({ data }: Props) {
               'fas fa-angle-double-down',
               style({
                 fontSize: rem(3),
-                color: colors.gold.toString(),
+                color: Theme.colors.gold.toString(),
               })
             )}
           ></i>

@@ -19,15 +19,12 @@ export const colors = {
   gold: color('#d0b084'),
   taupe: color('#CEC5B6'),
   white: color('#e2e2e2'),
-  black: color('#0000'),
-}
-
-export const mixins = {
-  lightGold: colors.gold.lighten(0.2),
+  black: color('#000'),
 }
 
 export const fonts = {
   Montserrat: 'Montserrat, sans-serif',
+  title: 'Oswald, sans-serif',
 }
 
 export const fontSizes = {
