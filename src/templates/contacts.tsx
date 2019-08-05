@@ -69,7 +69,7 @@ export default ({ data }: Props) => {
         })}
       >
         <div className={Theme.styles.title}>
-          {value.lang == 'fr' ? 'Horaires:' : 'Hours:'}
+          {value.locale == 'fr' ? 'Horaires:' : 'Hours:'}
         </div>
         <div>
           {data.contentfulInformations.hours.map(openingHour => (
@@ -91,7 +91,7 @@ export default ({ data }: Props) => {
           ))}
         </div>
         <h1 className={Theme.styles.title}>
-          {value.lang == 'fr' ? 'Adresse & Contact:' : 'Address & Contact:'}
+          {value.locale == 'fr' ? 'Adresse & Contact:' : 'Address & Contact:'}
         </h1>
         <div>
           <div>{data.contentfulInformations.address}</div>
