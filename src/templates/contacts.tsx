@@ -51,7 +51,7 @@ export default ({ data }: Props) => {
   const value = React.useContext(LanguageContext)
 
   return (
-    <Layout pageName="Contacts">
+    <Layout pageName="Contact">
       <div
         className={style({
           ...csstips.flex,
