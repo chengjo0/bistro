@@ -4,7 +4,6 @@ import { graphql } from 'gatsby'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
-import { LanguageContext } from '../context'
 import * as Theme from '../theme'
 
 interface Props {
