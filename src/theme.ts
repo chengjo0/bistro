@@ -18,7 +18,6 @@ export const colors = {
   darkPurple: color('#3F2324'),
   gold: color('#d0b084'),
   taupe: color('#CEC5B6'),
-  white: color('#e2e2e2'),
   black: color('#000'),
 }
 
@@ -32,6 +31,7 @@ export const fontSizes = {
   textLarge: rem(2),
   textMedium: px(20),
   textSmall: rem(1),
+  textExtraSmall: rem(0.7),
 }
 
 export const paddings = {

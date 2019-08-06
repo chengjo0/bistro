@@ -1,5 +1,5 @@
 import * as csstips from 'csstips'
-import { percent, rem } from 'csx'
+import { percent, rem, px } from 'csx'
 import { graphql, Link } from 'gatsby'
 import * as React from 'react'
 import { classes, keyframes, style } from 'typestyle'
@@ -125,14 +125,25 @@ export default function Home({ data, pageContext }: Props) {
       </div>
       <div
         className={style({
-          height: percent(50),
+          padding: Theme.paddings.mobile,
           ...csstips.flex,
-          ...csstips.centerCenter,
           ...csstips.vertical,
+          ...csstips.verticallySpaced(rem(1)),
         })}
       >
         {data.contentfulPages.pageList.map(page => (
-          <Link key={String(page.title)} to={String(page.url)}>
+          <Link
+            key={String(page.title)}
+            to={String(page.url)}
+            className={style({
+              ...csstips.centerCenter,
+              ...csstips.padding(rem(2)),
+              borderWidth: px(1),
+              borderRadius: rem(0.3),
+              backgroundColor: Theme.colors.gold.toString(),
+              fontFamily: Theme.fonts.title,
+            })}
+          >
             {page.title}
           </Link>
         ))}

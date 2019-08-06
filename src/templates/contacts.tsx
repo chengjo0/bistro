@@ -4,7 +4,6 @@ import { graphql } from 'gatsby'
 import * as React from 'react'
 import { style } from 'typestyle'
 import Layout from '../components/layout'
-import { LanguageContext } from '../context'
 import * as Theme from '../theme'
 
 interface Props {
@@ -14,6 +13,13 @@ interface Props {
       phoneNumber: String
       hours: Array<OpeningHour>
       title: String
+    }
+  }
+  pageContext: {
+    titles: {
+      openingHours: String
+      closedMessage: String
+      contactMessage: String
     }
   }
 }
@@ -28,28 +34,26 @@ type OpeningHour = {
   openForDinner: Boolean
 }
 
-const getOpeningHours = (openingHour: OpeningHour) => {
+const getOpeningHours = (openingHour: OpeningHour, closedMessage: String) => {
   let str = ''
   if (!openingHour.openForLunch && !openingHour.openForDinner) {
-    str = 'Fermé'
+    str = String(closedMessage)
   } else {
     str += `${
       openingHour.openForLunch
         ? `${openingHour.openingHourLunch} - ${openingHour.closingHourLunch}`
-        : 'Fermé'
+        : String(closedMessage)
     }`
     str += `${
       openingHour.openForDinner
         ? ` / ${openingHour.openingHourDinner} - ${openingHour.closingHourDinner}`
-        : ' / Fermé'
+        : ` / ${closedMessage}`
     }`
   }
   return <div>{str}</div>
 }
 
-export default ({ data }: Props) => {
-  const value = React.useContext(LanguageContext)
-
+export default ({ data, pageContext }: Props) => {
   return (
     <Layout pageName="Contact">
       <div
@@ -69,7 +73,7 @@ export default ({ data }: Props) => {
         })}
       >
         <div className={Theme.styles.title}>
-          {value.locale == 'fr' ? 'Horaires:' : 'Hours:'}
+          {pageContext.titles.openingHours}
         </div>
         <div>
           {data.contentfulInformations.hours.map(openingHour => (
@@ -86,12 +90,12 @@ export default ({ data }: Props) => {
               })}
             >
               <div>{openingHour.period} :</div>
-              {getOpeningHours(openingHour)}
+              {getOpeningHours(openingHour, pageContext.titles.closedMessage)}
             </div>
           ))}
         </div>
         <h1 className={Theme.styles.title}>
-          {value.locale == 'fr' ? 'Adresse & Contact:' : 'Address & Contact:'}
+          {pageContext.titles.contactMessage}
         </h1>
         <div>
           <div>{data.contentfulInformations.address}</div>

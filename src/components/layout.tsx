@@ -1,9 +1,9 @@
-import { rem, viewHeight } from 'csx'
+import { percent, rem, viewHeight } from 'csx'
 import * as React from 'react'
 import Helmet from 'react-helmet'
 import { style } from 'typestyle'
-import Header from './header'
 import * as Theme from '../theme'
+import Header from './header'
 
 interface Props {
   children: React.ReactNode
@@ -14,19 +14,10 @@ interface Props {
 export default ({ pageName, withPadding = false, children }: Props) => {
   return (
     <div
-      className={style(
-        ...Theme.breakpoints({
-          mobile: {
-            paddingTop: withPadding ? Theme.headerHeight.mobile : rem(0),
-          },
-          desktop: {
-            paddingTop: withPadding ? Theme.headerHeight.desktop : rem(0),
-          },
-        }),
-        {
-          height: viewHeight(100),
-        }
-      )}
+      className={style({
+        minHeight: viewHeight(100),
+        display: 'flex',
+      })}
     >
       <Helmet>
         <title>Bistro d'Asie | {String(pageName)}</title>
@@ -35,7 +26,23 @@ export default ({ pageName, withPadding = false, children }: Props) => {
         <script src="https://kit.fontawesome.com/e292d05fa9.js"></script>
       </Helmet>
       <Header />
-      {children}
+      <div
+        className={style(
+          ...Theme.breakpoints({
+            mobile: {
+              marginTop: withPadding ? Theme.headerHeight.mobile : rem(0),
+            },
+            desktop: {
+              paddingTop: withPadding ? Theme.headerHeight.desktop : rem(0),
+            },
+          }),
+          {
+            width: percent(100),
+          }
+        )}
+      >
+        {children}
+      </div>
     </div>
   )
 }
