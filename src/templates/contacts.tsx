@@ -1,8 +1,8 @@
 import * as csstips from 'csstips'
-import { percent, rem } from 'csx'
+import { percent, rem, px } from 'csx'
 import { graphql } from 'gatsby'
 import * as React from 'react'
-import { style } from 'typestyle'
+import { style, classes } from 'typestyle'
 import Layout from '../components/layout'
 import * as Theme from '../theme'
 
@@ -72,8 +72,25 @@ export default ({ data, pageContext }: Props) => {
           },
         })}
       >
-        <div className={Theme.styles.title}>
-          {pageContext.titles.openingHours}
+        <div
+          className={classes(
+            Theme.styles.title,
+            style({
+              ...csstips.vertical,
+              ...csstips.center,
+              ...csstips.verticallySpaced(rem(1)),
+            })
+          )}
+        >
+          <span>{pageContext.titles.openingHours}</span>
+          <span
+            className={style({
+              borderBottomStyle: 'solid',
+              borderBottomWidth: px(1),
+              borderBottomColor: Theme.colors.gold.toString(),
+              width: rem(3),
+            })}
+          ></span>
         </div>
         <div>
           {data.contentfulInformations.hours.map(openingHour => (
@@ -94,9 +111,26 @@ export default ({ data, pageContext }: Props) => {
             </div>
           ))}
         </div>
-        <h1 className={Theme.styles.title}>
-          {pageContext.titles.contactMessage}
-        </h1>
+        <div
+          className={classes(
+            Theme.styles.title,
+            style({
+              ...csstips.vertical,
+              ...csstips.center,
+              ...csstips.verticallySpaced(rem(1)),
+            })
+          )}
+        >
+          <span>{pageContext.titles.contactMessage}</span>
+          <span
+            className={style({
+              borderBottomStyle: 'solid',
+              borderBottomWidth: px(1),
+              borderBottomColor: Theme.colors.gold.toString(),
+              width: rem(3),
+            })}
+          ></span>
+        </div>
         <div>
           <div>{data.contentfulInformations.address}</div>
           <a href={`tel:${data.contentfulInformations.phoneNumber}`}>
