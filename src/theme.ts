@@ -31,6 +31,7 @@ export const fontSizes = {
   textLarge: rem(2),
   textMedium: px(20),
   textSmall: rem(1),
+  textExtraSmall: rem(0.7),
 }
 
 export const paddings = {

@@ -241,7 +241,7 @@ const styles = {
     position: 'fixed',
     top: px(0),
     width: percent(100),
-    background: Theme.colors.purple.toString(),
+    background: Theme.colors.purple.fade(0.9).toString(),
     zIndex: 100,
   }),
 }
