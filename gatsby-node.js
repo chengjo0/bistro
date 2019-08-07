@@ -55,7 +55,32 @@ exports.createPages = ({ graphql, actions }) => {
     },
   })
 
-  graphql(`
+  createPage({
+    path: `/notre-histoire`,
+    component: path.resolve(`src/templates/about.tsx`),
+    context: {
+      locale: 'fr',
+      pageName: 'Notre histoire',
+    },
+  })
+
+  createPage({
+    path: `/en/about`,
+    component: path.resolve(`src/templates/about.tsx`),
+    context: {
+      locale: 'fr',
+      pageName: 'About',
+    },
+  })
+
+  createRedirect({
+    fromPath: '/en/404',
+    toPath: '/404',
+    isPermanent: true,
+    redirectInBrowser: true,
+  })
+
+  return graphql(`
     query getContactMessages {
       fr: contentfulMessages(node_locale: { eq: "fr" }) {
         messages {
@@ -107,92 +132,6 @@ exports.createPages = ({ graphql, actions }) => {
           ).text,
         },
       },
-    })
-  })
-
-  createPage({
-    path: `/notre-histoire`,
-    component: path.resolve(`src/templates/about.tsx`),
-    context: {
-      locale: 'fr',
-      pageName: 'Notre histoire',
-    },
-  })
-
-  createPage({
-    path: `/en/about`,
-    component: path.resolve(`src/templates/about.tsx`),
-    context: {
-      locale: 'fr',
-      pageName: 'About',
-    },
-  })
-
-  createRedirect({
-    fromPath: '/en/404',
-    toPath: '/404',
-    isPermanent: true,
-    redirectInBrowser: true,
-  })
-
-  return graphql(`
-    query MyQuery {
-      fr: contentfulPages(node_locale: { eq: "fr" }) {
-        pageList {
-          ... on ContentfulCategorie {
-            id
-            title
-            url
-            plats {
-              name
-              description
-              price
-              spicy
-            }
-          }
-        }
-      }
-      en: contentfulPages(node_locale: { eq: "en" }) {
-        pageList {
-          ... on ContentfulCategorie {
-            id
-            title
-            url
-            plats {
-              name
-              description
-              price
-              spicy
-            }
-          }
-        }
-      }
-    }
-  `).then(result => {
-    if (result.errors) {
-      throw result.errors
-    }
-
-    result.data['fr'].pageList.forEach(page => {
-      createPage({
-        path: page.url,
-        component: path.resolve(`src/templates/dishes.tsx`),
-        context: {
-          dishes: page.plats,
-          pageName: page.title,
-        },
-      })
-    })
-
-    result.data['en'].pageList.forEach(page => {
-      createPage({
-        path: page.url,
-        component: path.resolve(`src/templates/dishes.tsx`),
-        context: {
-          dishes: page.plats,
-          pageName: page.title,
-        },
-      })
     })
   })
 }
