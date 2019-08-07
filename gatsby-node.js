@@ -22,64 +22,6 @@ exports.createPages = ({ graphql, actions }) => {
   })
 
   createPage({
-    path: `/menus`,
-    component: path.resolve(`src/templates/menu.tsx`),
-    context: {
-      locale: 'fr',
-      pageName: 'Formules Midi',
-      contentful_id: '2Kl5u37PiD8DzI30lswPvT',
-    },
-  })
-
-  createPage({
-    path: `/en/menus`,
-    component: path.resolve(`src/templates/menu.tsx`),
-    context: {
-      locale: 'en',
-      pageName: 'Lunch Menus',
-      contentful_id: '2Kl5u37PiD8DzI30lswPvT',
-    },
-  })
-
-  createPage({
-    path: `/menu-bistro`,
-    component: path.resolve(`src/templates/menu.tsx`),
-    context: {
-      locale: 'fr',
-      pageName: 'Menu Bistro',
-      contentful_id: 'uxck5OvoAqQNx71EttTog',
-    },
-  })
-
-  createPage({
-    path: `/en/menu-bistro`,
-    component: path.resolve(`src/templates/menu.tsx`),
-    context: {
-      locale: 'en',
-      pageName: 'Menu Bistro',
-      contentful_id: 'uxck5OvoAqQNx71EttTog',
-    },
-  })
-
-  createPage({
-    path: `/plats`,
-    component: path.resolve(`src/templates/dishes.tsx`),
-    context: {
-      locale: 'fr',
-      pageName: 'Plats',
-    },
-  })
-
-  createPage({
-    path: `/en/dishes`,
-    component: path.resolve(`src/templates/dishes.tsx`),
-    context: {
-      locale: 'en',
-      pageName: 'Dishes',
-    },
-  })
-
-  createPage({
     path: `/notre-histoire`,
     component: path.resolve(`src/templates/about.tsx`),
     context: {
@@ -106,35 +48,53 @@ exports.createPages = ({ graphql, actions }) => {
 
   return graphql(`
     query getContactMessages {
-      fr: contentfulMessages(node_locale: { eq: "fr" }) {
-        messages {
-          text
-          slug
+      fr: allContentfulMessages(filter: { node_locale: { eq: "fr" } }) {
+        edges {
+          node {
+            messages {
+              text
+              slug
+            }
+          }
         }
       }
-      en: contentfulMessages(node_locale: { eq: "en" }) {
-        messages {
-          text
-          slug
+      en: allContentfulMessages(filter: { node_locale: { eq: "en" } }) {
+        edges {
+          node {
+            messages {
+              text
+              slug
+            }
+          }
         }
       }
     }
   `).then(result => {
+    if (!result) {
+      throw new Error(result)
+    }
+    const frMessages = result.data.fr.edges.reduce((acc, val) => {
+      return acc.concat(val.node.messages)
+    }, [])
+
+    const enMessages = result.data.en.edges.reduce((acc, val) => {
+      return acc.concat(val.node.messages)
+    }, [])
+
     createPage({
       path: `/contact`,
       component: path.resolve(`src/templates/contacts.tsx`),
       context: {
         locale: 'fr',
         titles: {
-          openingHours: result.data.fr.messages.find(
+          openingHours: frMessages.find(
             msg => msg.slug === 'opening-hour-message'
           ).text,
-          closedMessage: result.data.fr.messages.find(
+          closedMessage: frMessages.find(
             msg => msg.slug === 'closed-restaurant-message'
           ).text,
-          contactMessage: result.data.fr.messages.find(
-            msg => msg.slug === 'contact-message'
-          ).text,
+          contactMessage: frMessages.find(msg => msg.slug === 'contact-message')
+            .text,
         },
       },
     })
@@ -145,16 +105,91 @@ exports.createPages = ({ graphql, actions }) => {
       context: {
         locale: 'en',
         titles: {
-          openingHours: result.data.en.messages.find(
+          openingHours: enMessages.find(
             msg => msg.slug === 'opening-hour-message'
           ).text,
-          closedMessage: result.data.en.messages.find(
+          closedMessage: enMessages.find(
             msg => msg.slug === 'closed-restaurant-message'
           ).text,
-          contactMessage: result.data.en.messages.find(
-            msg => msg.slug === 'contact-message'
-          ).text,
+          contactMessage: enMessages.find(msg => msg.slug === 'contact-message')
+            .text,
         },
+      },
+    })
+
+    createPage({
+      path: `/menus`,
+      component: path.resolve(`src/templates/menu.tsx`),
+      context: {
+        locale: 'fr',
+        pageName: 'Formules Midi',
+        contentful_id: '2Kl5u37PiD8DzI30lswPvT',
+        accompaniementMessage: frMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+      },
+    })
+
+    createPage({
+      path: `/en/menus`,
+      component: path.resolve(`src/templates/menu.tsx`),
+      context: {
+        locale: 'en',
+        pageName: 'Lunch Menus',
+        contentful_id: '2Kl5u37PiD8DzI30lswPvT',
+        accompaniementMessage: enMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+      },
+    })
+
+    createPage({
+      path: `/menu-bistro`,
+      component: path.resolve(`src/templates/menu.tsx`),
+      context: {
+        locale: 'fr',
+        pageName: 'Menu Bistro',
+        contentful_id: 'uxck5OvoAqQNx71EttTog',
+        accompaniementMessage: frMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+      },
+    })
+
+    createPage({
+      path: `/en/menu-bistro`,
+      component: path.resolve(`src/templates/menu.tsx`),
+      context: {
+        locale: 'en',
+        pageName: 'Menu Bistro',
+        contentful_id: 'uxck5OvoAqQNx71EttTog',
+        accompaniementMessage: enMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+      },
+    })
+
+    createPage({
+      path: `/plats`,
+      component: path.resolve(`src/templates/dishes.tsx`),
+      context: {
+        locale: 'fr',
+        pageName: 'Plats',
+        accompaniementMessage: frMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+      },
+    })
+
+    createPage({
+      path: `/en/dishes`,
+      component: path.resolve(`src/templates/dishes.tsx`),
+      context: {
+        locale: 'en',
+        pageName: 'Dishes',
+        accompaniementMessage: enMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
       },
     })
   })
