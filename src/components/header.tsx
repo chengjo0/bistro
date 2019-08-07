@@ -9,10 +9,10 @@ import * as Theme from '../theme'
 
 interface Pages {
   fr: {
-    pageList: Array<{ title: String; url: String; inHeader?: Boolean }>
+    pageList: Array<{ title: String; url: String }>
   }
   en: {
-    pageList: Array<{ title: String; url: String; inHeader?: Boolean }>
+    pageList: Array<{ title: String; url: String }>
   }
 }
 
@@ -25,38 +25,16 @@ const Header = () => {
           <StaticQuery
             query={graphql`
               query GetLinks {
-                fr: contentfulPages(
-                  node_locale: { eq: "fr" }
-                  contentful_id: { eq: "73n7B0VXfnqMguKQR1bK51" }
-                ) {
+                fr: contentfulPages(node_locale: { eq: "fr" }) {
                   pageList {
-                    ... on ContentfulCategorie {
-                      id
-                      url
-                    }
-                    ... on ContentfulPage {
-                      id
-                      title
-                      url
-                      inHeader
-                    }
+                    title
+                    url
                   }
                 }
-                en: contentfulPages(
-                  node_locale: { eq: "en" }
-                  contentful_id: { eq: "73n7B0VXfnqMguKQR1bK51" }
-                ) {
+                en: contentfulPages(node_locale: { eq: "en" }) {
                   pageList {
-                    ... on ContentfulCategorie {
-                      id
-                      url
-                    }
-                    ... on ContentfulPage {
-                      id
-                      title
-                      url
-                      inHeader
-                    }
+                    title
+                    url
                   }
                 }
               }
@@ -89,19 +67,15 @@ const Header = () => {
                   </div>
                   <div className={styles.menuWrapper(openMenu)}>
                     <div className={styles.menu}>
-                      {pagesForLocale.pageList.map((page, index) => {
-                        if (page.inHeader) {
-                          return (
-                            <Link
-                              key={`link-${index}`}
-                              to={String(page.url)}
-                              className={styles.link}
-                            >
-                              <h3>{String(page.title)}</h3>
-                            </Link>
-                          )
-                        }
-                      })}
+                      {pagesForLocale.pageList.map((page, index) => (
+                        <Link
+                          key={`link-${index}`}
+                          to={String(page.url)}
+                          className={styles.link}
+                        >
+                          <h3>{String(page.title)}</h3>
+                        </Link>
+                      ))}
                       <div className={styles.languageSwitcher}>
                         <div
                           onClick={() => {
