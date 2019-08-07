@@ -22,6 +22,7 @@ interface Props {
   }
   pageContext: {
     pageName: String
+    accompaniementMessage: String
   }
 }
 
@@ -49,6 +50,39 @@ export default ({ data, pageContext }: Props) => (
         }
       )}
     >
+      <div
+        className={style({
+          ...csstips.horizontal,
+          ...csstips.horizontallySpaced(rem(1)),
+        })}
+      >
+        <div
+          className={style({
+            ...csstips.content,
+            ...csstips.vertical,
+            ...csstips.centerCenter,
+          })}
+        >
+          <i
+            className={classes(
+              'fas fa-star',
+              style({
+                color: Theme.colors.gold.toString(),
+              })
+            )}
+          ></i>
+        </div>
+        <div
+          className={style({
+            ...csstips.flex,
+            ...csstips.horizontal,
+            fontSize: Theme.fontSizes.textExtraSmall,
+            fontStyle: 'italic',
+          })}
+        >
+          {pageContext.accompaniementMessage}
+        </div>
+      </div>
       {data.contentfulPlats.category.map(category => (
         <div
           key={String(category.title)}
