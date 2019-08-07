@@ -8,11 +8,10 @@ import * as Theme from '../theme'
 
 interface Props {
   data: {
-    contentfulPages: {
-      pageList: Array<{
+    contentfulPlats: {
+      category: Array<{
         title: String
-        url: String
-        plats: Array<{
+        dishes: Array<{
           name: String
           description: String
           price: Number
@@ -50,7 +49,7 @@ export default ({ data, pageContext }: Props) => (
         }
       )}
     >
-      {data.contentfulPages.pageList.map(category => (
+      {data.contentfulPlats.category.map(category => (
         <div
           key={String(category.title)}
           className={style({
@@ -79,7 +78,7 @@ export default ({ data, pageContext }: Props) => (
               })}
             ></span>
           </div>
-          {category.plats.map((dish, index) => (
+          {category.dishes.map((dish, index) => (
             <div
               key={String(dish.name)}
               className={style({
@@ -132,20 +131,14 @@ export default ({ data, pageContext }: Props) => (
 
 export const query = graphql`
   query GetDishesPages($locale: String) {
-    contentfulPages(
-      node_locale: { eq: $locale }
-      contentful_id: { eq: "1i7wC5nQiERnHz4LNzxkpP" }
-    ) {
-      pageList {
-        ... on ContentfulCategorie {
-          title
-          url
-          plats {
-            name
-            description
-            price
-            spicy
-          }
+    contentfulPlats(node_locale: { eq: $locale }) {
+      category {
+        title
+        dishes {
+          name
+          description
+          price
+          spicy
         }
       }
     }
