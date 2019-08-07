@@ -27,6 +27,7 @@ interface Props {
   }
   pageContext: {
     pageName: String
+    accompaniementMessage: String
   }
 }
 
@@ -87,6 +88,39 @@ export default ({ data: { packages, possibilities }, pageContext }: Props) => (
             </div>
           </div>
         ))}
+        <div
+          className={style({
+            ...csstips.horizontal,
+            ...csstips.horizontallySpaced(rem(1)),
+          })}
+        >
+          <div
+            className={style({
+              ...csstips.content,
+              ...csstips.vertical,
+              ...csstips.centerCenter,
+            })}
+          >
+            <i
+              className={classes(
+                'fas fa-star',
+                style({
+                  color: Theme.colors.gold.toString(),
+                })
+              )}
+            ></i>
+          </div>
+          <div
+            className={style({
+              ...csstips.flex,
+              ...csstips.horizontal,
+              fontSize: Theme.fontSizes.textExtraSmall,
+              fontStyle: 'italic',
+            })}
+          >
+            {pageContext.accompaniementMessage}
+          </div>
+        </div>
       </div>
 
       {possibilities.menuDishes.map(category => (
