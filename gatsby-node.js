@@ -23,17 +23,37 @@ exports.createPages = ({ graphql, actions }) => {
 
   createPage({
     path: `/menus`,
-    component: path.resolve(`src/templates/menus.tsx`),
+    component: path.resolve(`src/templates/lunchMenus.tsx`),
     context: {
       locale: 'fr',
+      pageName: 'Formules Midi',
     },
   })
 
   createPage({
     path: `/en/menus`,
-    component: path.resolve(`src/templates/menus.tsx`),
+    component: path.resolve(`src/templates/lunchMenus.tsx`),
     context: {
       locale: 'en',
+      pageName: 'Lunch Menus',
+    },
+  })
+
+  createPage({
+    path: `/menu-bistro`,
+    component: path.resolve(`src/templates/menu.tsx`),
+    context: {
+      locale: 'fr',
+      pageName: 'Menu Bistro',
+    },
+  })
+
+  createPage({
+    path: `/en/menu-bistro`,
+    component: path.resolve(`src/templates/menu.tsx`),
+    context: {
+      locale: 'en',
+      pageName: 'Menu Bistro',
     },
   })
 
