@@ -30,21 +30,25 @@ export default ({ data: { packages, possibilities } }: Props) => (
   <Layout pageName="Menu" withPadding>
     <div className={style({ ...csstips.centerCenter, height: percent(100) })}>
       Coming soon...
-      {console.log(JSON.stringify(packages, undefined, 2))}
-      {console.log(JSON.stringify(possibilities, undefined, 2))}
     </div>
   </Layout>
 )
 
 export const query = graphql`
-  query GetMenus {
-    packages: contentfulMenus {
+  query GetMenuBistro($locale: String) {
+    packages: contentfulMenus(
+      node_locale: { eq: $locale }
+      contentful_id: { eq: "uxck5OvoAqQNx71EttTog" }
+    ) {
       formules {
         title
         price
       }
     }
-    possibilities: contentfulMenus {
+    possibilities: contentfulMenus(
+      node_locale: { eq: $locale }
+      contentful_id: { eq: "uxck5OvoAqQNx71EttTog" }
+    ) {
       menuDishes {
         title
         dishes {

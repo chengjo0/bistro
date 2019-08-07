@@ -136,14 +136,20 @@ export default ({ data: { packages, possibilities }, pageContext }: Props) => (
 )
 
 export const query = graphql`
-  query GetLunchMenus($locale: String) {
-    packages: contentfulMenus(node_locale: { eq: $locale }) {
+  query GetLunchMenus($locale: String, $contentful_id: String) {
+    packages: contentfulMenus(
+      node_locale: { eq: $locale }
+      contentful_id: { eq: $contentful_id }
+    ) {
       formules {
         title
         price
       }
     }
-    possibilities: contentfulMenus(node_locale: { eq: $locale }) {
+    possibilities: contentfulMenus(
+      node_locale: { eq: $locale }
+      contentful_id: { eq: $contentful_id }
+    ) {
       menuDishes {
         title
         dishes {
