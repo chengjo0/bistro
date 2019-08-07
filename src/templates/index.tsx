@@ -22,10 +22,8 @@ interface Props {
     }
     contentfulPages: {
       pageList: Array<{
-        id: String
         title: String
         url: String
-        inHeader?: Boolean
       }>
     }
   }
@@ -132,26 +130,22 @@ export default function Home({ data, pageContext }: Props) {
           ...csstips.verticallySpaced(rem(1)),
         })}
       >
-        {data.contentfulPages.pageList.map(page => {
-          if (page.inHeader) {
-            return (
-              <Link
-                key={String(page.title)}
-                to={String(page.url)}
-                className={style({
-                  ...csstips.centerCenter,
-                  ...csstips.padding(rem(2)),
-                  borderWidth: px(1),
-                  borderRadius: rem(0.3),
-                  backgroundColor: Theme.colors.gold.toString(),
-                  fontFamily: Theme.fonts.title,
-                })}
-              >
-                {page.title}
-              </Link>
-            )
-          }
-        })}
+        {data.contentfulPages.pageList.map(page => (
+          <Link
+            key={String(page.title)}
+            to={String(page.url)}
+            className={style({
+              ...csstips.centerCenter,
+              ...csstips.padding(rem(2)),
+              borderWidth: px(1),
+              borderRadius: rem(0.3),
+              backgroundColor: Theme.colors.gold.toString(),
+              fontFamily: Theme.fonts.title,
+            })}
+          >
+            {page.title}
+          </Link>
+        ))}
       </div>
     </Layout>
   )
@@ -169,21 +163,10 @@ export const query = graphql`
         }
       }
     }
-    contentfulPages(
-      node_locale: { eq: $locale }
-      contentful_id: { eq: "73n7B0VXfnqMguKQR1bK51" }
-    ) {
+    contentfulPages(node_locale: { eq: $locale }) {
       pageList {
-        ... on ContentfulCategorie {
-          id
-          url
-        }
-        ... on ContentfulPage {
-          id
-          title
-          url
-          inHeader
-        }
+        title
+        url
       }
     }
   }
