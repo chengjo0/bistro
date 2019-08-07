@@ -39,7 +39,7 @@ exports.createPages = ({ graphql, actions }) => {
 
   createPage({
     path: `/plats`,
-    component: path.resolve(`src/templates/categories.tsx`),
+    component: path.resolve(`src/templates/dishes.tsx`),
     context: {
       locale: 'fr',
       pageName: 'Plats',
@@ -48,7 +48,7 @@ exports.createPages = ({ graphql, actions }) => {
 
   createPage({
     path: `/en/dishes`,
-    component: path.resolve(`src/templates/categories.tsx`),
+    component: path.resolve(`src/templates/dishes.tsx`),
     context: {
       locale: 'en',
       pageName: 'Dishes',
