@@ -54,6 +54,41 @@ export default ({ data: { packages, possibilities }, pageContext }: Props) => (
         }
       )}
     >
+      <div
+        className={style({
+          ...csstips.verticallySpaced(rem(1)),
+        })}
+      >
+        {packages.formules.map(formule => (
+          <div
+            key={String(formule.title)}
+            className={style({
+              ...csstips.flex,
+              ...csstips.horizontal,
+            })}
+          >
+            <div
+              className={style({
+                ...csstips.flex,
+                fontFamily: Theme.fonts.title,
+              })}
+            >
+              {formule.title}
+            </div>
+            <div
+              className={style({
+                ...csstips.content,
+                ...csstips.vertical,
+                ...csstips.endJustified,
+                fontFamily: Theme.fonts.title,
+              })}
+            >
+              {formule.price}0 €
+            </div>
+          </div>
+        ))}
+      </div>
+
       {possibilities.menuDishes.map(category => (
         <div
           key={String(category.title)}
