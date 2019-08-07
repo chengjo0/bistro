@@ -1,20 +1,25 @@
 import * as csstips from 'csstips'
-import { px, rem, color } from 'csx'
+import { color, px, rem } from 'csx'
 import { graphql } from 'gatsby'
 import * as React from 'react'
-import { style, classes } from 'typestyle'
+import { classes, style } from 'typestyle'
 import Layout from '../components/layout'
 import * as Theme from '../theme'
 
 interface Props {
   data: {
-    contentfulPlats: {
-      category: Array<{
+    packages: {
+      formules: Array<{
+        title: String
+        price: Number
+      }>
+    }
+    possibilities: {
+      menuDishes: Array<{
         title: String
         dishes: Array<{
           name: String
           description: String
-          price: Number
           spicy: Boolean
         }>
       }>
@@ -25,7 +30,7 @@ interface Props {
   }
 }
 
-export default ({ data, pageContext }: Props) => (
+export default ({ data: { packages, possibilities }, pageContext }: Props) => (
   <Layout pageName={pageContext.pageName} withPadding>
     <div
       className={style(
@@ -49,7 +54,42 @@ export default ({ data, pageContext }: Props) => (
         }
       )}
     >
-      {data.contentfulPlats.category.map(category => (
+      <div
+        className={style({
+          ...csstips.verticallySpaced(rem(1)),
+        })}
+      >
+        {packages.formules.map(formule => (
+          <div
+            key={String(formule.title)}
+            className={style({
+              ...csstips.flex,
+              ...csstips.horizontal,
+            })}
+          >
+            <div
+              className={style({
+                ...csstips.flex,
+                fontFamily: Theme.fonts.title,
+              })}
+            >
+              {formule.title}
+            </div>
+            <div
+              className={style({
+                ...csstips.content,
+                ...csstips.vertical,
+                ...csstips.endJustified,
+                fontFamily: Theme.fonts.title,
+              })}
+            >
+              {formule.price}0 €
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {possibilities.menuDishes.map(category => (
         <div
           key={String(category.title)}
           className={style({
@@ -121,7 +161,6 @@ export default ({ data, pageContext }: Props) => (
                   ( {dish.description} )
                 </span>
               ) : null}
-              <span>{dish.price}0 €</span>
             </div>
           ))}
         </div>
@@ -131,14 +170,25 @@ export default ({ data, pageContext }: Props) => (
 )
 
 export const query = graphql`
-  query GetDishesPages($locale: String) {
-    contentfulPlats(node_locale: { eq: $locale }) {
-      category {
+  query GetLunchMenus($locale: String, $contentful_id: String) {
+    packages: contentfulMenus(
+      node_locale: { eq: $locale }
+      contentful_id: { eq: $contentful_id }
+    ) {
+      formules {
+        title
+        price
+      }
+    }
+    possibilities: contentfulMenus(
+      node_locale: { eq: $locale }
+      contentful_id: { eq: $contentful_id }
+    ) {
+      menuDishes {
         title
         dishes {
           name
           description
-          price
           spicy
         }
       }
