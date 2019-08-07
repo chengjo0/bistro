@@ -23,7 +23,7 @@ exports.createPages = ({ graphql, actions }) => {
 
   createPage({
     path: `/menus`,
-    component: path.resolve(`src/templates/lunchMenus.tsx`),
+    component: path.resolve(`src/templates/menu.tsx`),
     context: {
       locale: 'fr',
       pageName: 'Formules Midi',
@@ -33,7 +33,7 @@ exports.createPages = ({ graphql, actions }) => {
 
   createPage({
     path: `/en/menus`,
-    component: path.resolve(`src/templates/lunchMenus.tsx`),
+    component: path.resolve(`src/templates/menu.tsx`),
     context: {
       locale: 'en',
       pageName: 'Lunch Menus',
@@ -43,7 +43,7 @@ exports.createPages = ({ graphql, actions }) => {
 
   createPage({
     path: `/menu-bistro`,
-    component: path.resolve(`src/templates/lunchMenus.tsx`),
+    component: path.resolve(`src/templates/menu.tsx`),
     context: {
       locale: 'fr',
       pageName: 'Menu Bistro',
@@ -53,7 +53,7 @@ exports.createPages = ({ graphql, actions }) => {
 
   createPage({
     path: `/en/menu-bistro`,
-    component: path.resolve(`src/templates/lunchMenus.tsx`),
+    component: path.resolve(`src/templates/menu.tsx`),
     context: {
       locale: 'en',
       pageName: 'Menu Bistro',
