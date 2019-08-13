@@ -107,10 +107,10 @@ exports.createPages = ({ graphql, actions }) => {
 
     const dishes = {
       fr: result.data.frDishes.category.filter(
-        category => category.title.toLocaleLowerCase() !== 'bo buns'
+        category => !category.speciality
       ),
       en: result.data.enDishes.category.filter(
-        category => category.title.toLocaleLowerCase() !== 'bo buns'
+        category => !category.speciality
       ),
     }
 
