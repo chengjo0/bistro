@@ -1,25 +1,11 @@
 import * as csstips from 'csstips'
-import { px, rem, color } from 'csx'
-import { graphql } from 'gatsby'
+import { color, px, rem } from 'csx'
 import * as React from 'react'
-import { style, classes } from 'typestyle'
+import { classes, style } from 'typestyle'
 import Layout from '../components/layout'
 import * as Theme from '../theme'
 
 interface Props {
-  data: {
-    contentfulPlats: {
-      category: Array<{
-        title: String
-        dishes: Array<{
-          name: String
-          description: String
-          price: Number
-          spicy: Boolean
-        }>
-      }>
-    }
-  }
   pageContext: {
     pageName: String
     accompaniementMessage: String
@@ -174,19 +160,3 @@ export default ({ pageContext }: Props) => {
     </Layout>
   )
 }
-
-export const query = graphql`
-  query GetDishesPages($locale: String) {
-    contentfulPlats(node_locale: { eq: $locale }) {
-      category {
-        title
-        dishes {
-          name
-          description
-          price
-          spicy
-        }
-      }
-    }
-  }
-`
