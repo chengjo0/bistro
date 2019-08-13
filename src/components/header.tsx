@@ -1,11 +1,11 @@
 import * as csstips from 'csstips'
-import { graphql, Link, navigate, StaticQuery } from 'gatsby'
 import { percent, px, rem } from 'csx'
+import { graphql, Link, navigate, StaticQuery } from 'gatsby'
 import * as React from 'react'
 import { classes, style } from 'typestyle'
 import { LanguageContext } from '../context'
-import { ContextType, Language } from '../types'
 import * as Theme from '../theme'
+import { ContextType, Language } from '../types'
 
 interface Pages {
   fr: {
@@ -181,13 +181,14 @@ const styles = {
         desktop: { top: Theme.headerHeight.desktop },
       }),
       {
-        height: isOpen ? rem(25) : rem(0),
+        maxHeight: isOpen ? percent(100) : rem(0),
+        height: 'auto',
         display: 'flex',
         position: 'fixed',
         right: px(0),
         width: percent(100),
         overflowY: 'hidden',
-        transition: 'height .5s ease',
+        transition: 'max-height .5s ease',
       }
     ),
   header: style(
