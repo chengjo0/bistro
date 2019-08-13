@@ -114,12 +114,21 @@ exports.createPages = ({ graphql, actions }) => {
       ),
     }
 
-    const specialities = {
+    const boBuns = {
       fr: result.data.frDishes.category.filter(
         category => category.title.toLocaleLowerCase() === 'bo buns'
       ),
       en: result.data.enDishes.category.filter(
         category => category.title.toLocaleLowerCase() === 'bo buns'
+      ),
+    }
+
+    const guabao = {
+      fr: result.data.frDishes.category.filter(
+        category => category.title.toLocaleLowerCase() === 'gua bao'
+      ),
+      en: result.data.enDishes.category.filter(
+        category => category.title.toLocaleLowerCase() === 'gua bao'
       ),
     }
 
@@ -212,32 +221,6 @@ exports.createPages = ({ graphql, actions }) => {
     })
 
     createPage({
-      path: `/specialites`,
-      component: path.resolve(`src/templates/dishes.tsx`),
-      context: {
-        locale: 'fr',
-        pageName: 'Nos spécialités',
-        accompaniementMessage: frMessages.find(
-          msg => msg.slug === 'accompagnement'
-        ).text,
-        dishesByCategories: specialities.fr,
-      },
-    })
-
-    createPage({
-      path: `/en/specialities`,
-      component: path.resolve(`src/templates/dishes.tsx`),
-      context: {
-        locale: 'en',
-        pageName: 'Our specialities',
-        accompaniementMessage: enMessages.find(
-          msg => msg.slug === 'accompagnement'
-        ).text,
-        dishesByCategories: specialities.en,
-      },
-    })
-
-    createPage({
       path: `/plats`,
       component: path.resolve(`src/templates/dishes.tsx`),
       context: {
@@ -260,6 +243,58 @@ exports.createPages = ({ graphql, actions }) => {
           msg => msg.slug === 'accompagnement'
         ).text,
         dishesByCategories: dishes.en,
+      },
+    })
+
+    createPage({
+      path: `/bo-bun`,
+      component: path.resolve(`src/templates/dishes.tsx`),
+      context: {
+        locale: 'fr',
+        pageName: 'Nos Bo Bun',
+        accompaniementMessage: frMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+        dishesByCategories: boBuns.fr,
+      },
+    })
+
+    createPage({
+      path: `/en/bo-bun`,
+      component: path.resolve(`src/templates/dishes.tsx`),
+      context: {
+        locale: 'en',
+        pageName: 'Our Bo Bun',
+        accompaniementMessage: enMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+        dishesByCategories: boBuns.en,
+      },
+    })
+
+    createPage({
+      path: `/gua-bao`,
+      component: path.resolve(`src/templates/dishes.tsx`),
+      context: {
+        locale: 'fr',
+        pageName: 'Nos Gua Bao',
+        accompaniementMessage: frMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+        dishesByCategories: guabao.fr,
+      },
+    })
+
+    createPage({
+      path: `/en/gua-bao`,
+      component: path.resolve(`src/templates/dishes.tsx`),
+      context: {
+        locale: 'en',
+        pageName: 'Our Gua Bao',
+        accompaniementMessage: enMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+        dishesByCategories: guabao.en,
       },
     })
   })
