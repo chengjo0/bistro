@@ -68,6 +68,30 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       }
+      frDishes: contentfulPlats(node_locale: { eq: "fr" }) {
+        category {
+          title
+          speciality
+          dishes {
+            name
+            description
+            price
+            spicy
+          }
+        }
+      }
+      enDishes: contentfulPlats(node_locale: { eq: "en" }) {
+        category {
+          title
+          speciality
+          dishes {
+            name
+            description
+            price
+            spicy
+          }
+        }
+      }
     }
   `).then(result => {
     if (!result) {
@@ -80,6 +104,24 @@ exports.createPages = ({ graphql, actions }) => {
     const enMessages = result.data.en.edges.reduce((acc, val) => {
       return acc.concat(val.node.messages)
     }, [])
+
+    const dishes = {
+      fr: result.data.frDishes.category.filter(
+        category => category.title.toLocaleLowerCase() !== 'bo buns'
+      ),
+      en: result.data.enDishes.category.filter(
+        category => category.title.toLocaleLowerCase() !== 'bo buns'
+      ),
+    }
+
+    const specialities = {
+      fr: result.data.frDishes.category.filter(
+        category => category.title.toLocaleLowerCase() === 'bo buns'
+      ),
+      en: result.data.enDishes.category.filter(
+        category => category.title.toLocaleLowerCase() === 'bo buns'
+      ),
+    }
 
     createPage({
       path: `/contact`,
@@ -170,6 +212,32 @@ exports.createPages = ({ graphql, actions }) => {
     })
 
     createPage({
+      path: `/specialites`,
+      component: path.resolve(`src/templates/dishes.tsx`),
+      context: {
+        locale: 'fr',
+        pageName: 'Nos spécialités',
+        accompaniementMessage: frMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+        dishesByCategories: specialities.fr,
+      },
+    })
+
+    createPage({
+      path: `/en/specialities`,
+      component: path.resolve(`src/templates/dishes.tsx`),
+      context: {
+        locale: 'en',
+        pageName: 'Our specialities',
+        accompaniementMessage: enMessages.find(
+          msg => msg.slug === 'accompagnement'
+        ).text,
+        dishesByCategories: specialities.en,
+      },
+    })
+
+    createPage({
       path: `/plats`,
       component: path.resolve(`src/templates/dishes.tsx`),
       context: {
@@ -178,6 +246,7 @@ exports.createPages = ({ graphql, actions }) => {
         accompaniementMessage: frMessages.find(
           msg => msg.slug === 'accompagnement'
         ).text,
+        dishesByCategories: dishes.fr,
       },
     })
 
@@ -190,6 +259,7 @@ exports.createPages = ({ graphql, actions }) => {
         accompaniementMessage: enMessages.find(
           msg => msg.slug === 'accompagnement'
         ).text,
+        dishesByCategories: dishes.en,
       },
     })
   })
