@@ -68,27 +68,89 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       }
-      frDishes: contentfulPlats(node_locale: { eq: "fr" }) {
-        category {
-          title
-          speciality
-          dishes {
-            name
-            description
-            price
-            spicy
+      frSpecialities: allContentfulPlats(
+        filter: {
+          node_locale: { eq: "fr" }
+          category: { elemMatch: { speciality: { eq: true } } }
+        }
+      ) {
+        edges {
+          node {
+            category {
+              title
+              dishes {
+                name
+                description
+                price
+                spicy
+              }
+              link {
+                url
+              }
+            }
           }
         }
       }
-      enDishes: contentfulPlats(node_locale: { eq: "en" }) {
-        category {
-          title
-          speciality
-          dishes {
-            name
-            description
-            price
-            spicy
+      enSpecialities: allContentfulPlats(
+        filter: {
+          node_locale: { eq: "en" }
+          category: { elemMatch: { speciality: { eq: true } } }
+        }
+      ) {
+        edges {
+          node {
+            category {
+              title
+              dishes {
+                name
+                description
+                price
+                spicy
+              }
+              link {
+                url
+              }
+            }
+          }
+        }
+      }
+      frDishes: allContentfulPlats(
+        filter: {
+          node_locale: { eq: "fr" }
+          category: { elemMatch: { speciality: { eq: false } } }
+        }
+      ) {
+        edges {
+          node {
+            category {
+              title
+              dishes {
+                name
+                description
+                price
+                spicy
+              }
+            }
+          }
+        }
+      }
+      enDishes: allContentfulPlats(
+        filter: {
+          node_locale: { eq: "en" }
+          category: { elemMatch: { speciality: { eq: false } } }
+        }
+      ) {
+        edges {
+          node {
+            category {
+              title
+              dishes {
+                name
+                description
+                price
+                spicy
+              }
+            }
           }
         }
       }
@@ -97,6 +159,7 @@ exports.createPages = ({ graphql, actions }) => {
     if (!result) {
       throw new Error(result)
     }
+
     const frMessages = result.data.fr.edges.reduce((acc, val) => {
       return acc.concat(val.node.messages)
     }, [])
@@ -104,33 +167,6 @@ exports.createPages = ({ graphql, actions }) => {
     const enMessages = result.data.en.edges.reduce((acc, val) => {
       return acc.concat(val.node.messages)
     }, [])
-
-    const dishes = {
-      fr: result.data.frDishes.category.filter(
-        category => !category.speciality
-      ),
-      en: result.data.enDishes.category.filter(
-        category => !category.speciality
-      ),
-    }
-
-    const boBuns = {
-      fr: result.data.frDishes.category.filter(
-        category => category.title.toLocaleLowerCase() === 'bo buns'
-      ),
-      en: result.data.enDishes.category.filter(
-        category => category.title.toLocaleLowerCase() === 'bo buns'
-      ),
-    }
-
-    const guabao = {
-      fr: result.data.frDishes.category.filter(
-        category => category.title.toLocaleLowerCase() === 'gua bao'
-      ),
-      en: result.data.enDishes.category.filter(
-        category => category.title.toLocaleLowerCase() === 'gua bao'
-      ),
-    }
 
     createPage({
       path: `/contact`,
@@ -220,6 +256,34 @@ exports.createPages = ({ graphql, actions }) => {
       },
     })
 
+    result.data.frSpecialities.edges[0].node.category.forEach(element => {
+      createPage({
+        path: element.link.url,
+        component: path.resolve(`src/templates/dishes.tsx`),
+        context: {
+          pageName: element.title,
+          accompaniementMessage: frMessages.find(
+            msg => msg.slug === 'accompagnement'
+          ).text,
+          dishesByCategories: [element],
+        },
+      })
+    })
+
+    result.data.enSpecialities.edges[0].node.category.forEach(element => {
+      createPage({
+        path: element.link.url,
+        component: path.resolve(`src/templates/dishes.tsx`),
+        context: {
+          pageName: element.title,
+          accompaniementMessage: frMessages.find(
+            msg => msg.slug === 'accompagnement'
+          ).text,
+          dishesByCategories: [element],
+        },
+      })
+    })
+
     createPage({
       path: `/plats`,
       component: path.resolve(`src/templates/dishes.tsx`),
@@ -229,7 +293,7 @@ exports.createPages = ({ graphql, actions }) => {
         accompaniementMessage: frMessages.find(
           msg => msg.slug === 'accompagnement'
         ).text,
-        dishesByCategories: dishes.fr,
+        dishesByCategories: result.data.frDishes.edges[0].node.category,
       },
     })
 
@@ -242,59 +306,7 @@ exports.createPages = ({ graphql, actions }) => {
         accompaniementMessage: enMessages.find(
           msg => msg.slug === 'accompagnement'
         ).text,
-        dishesByCategories: dishes.en,
-      },
-    })
-
-    createPage({
-      path: `/bo-bun`,
-      component: path.resolve(`src/templates/dishes.tsx`),
-      context: {
-        locale: 'fr',
-        pageName: 'Nos Bo Bun',
-        accompaniementMessage: frMessages.find(
-          msg => msg.slug === 'accompagnement'
-        ).text,
-        dishesByCategories: boBuns.fr,
-      },
-    })
-
-    createPage({
-      path: `/en/bo-bun`,
-      component: path.resolve(`src/templates/dishes.tsx`),
-      context: {
-        locale: 'en',
-        pageName: 'Our Bo Bun',
-        accompaniementMessage: enMessages.find(
-          msg => msg.slug === 'accompagnement'
-        ).text,
-        dishesByCategories: boBuns.en,
-      },
-    })
-
-    createPage({
-      path: `/gua-bao`,
-      component: path.resolve(`src/templates/dishes.tsx`),
-      context: {
-        locale: 'fr',
-        pageName: 'Nos Gua Bao',
-        accompaniementMessage: frMessages.find(
-          msg => msg.slug === 'accompagnement'
-        ).text,
-        dishesByCategories: guabao.fr,
-      },
-    })
-
-    createPage({
-      path: `/en/gua-bao`,
-      component: path.resolve(`src/templates/dishes.tsx`),
-      context: {
-        locale: 'en',
-        pageName: 'Our Gua Bao',
-        accompaniementMessage: enMessages.find(
-          msg => msg.slug === 'accompagnement'
-        ).text,
-        dishesByCategories: guabao.en,
+        dishesByCategories: result.data.enDishes.edges[0].node.category,
       },
     })
   })
