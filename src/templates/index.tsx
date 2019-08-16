@@ -16,7 +16,7 @@ interface Props {
     contentfulInformations: {
       picture: {
         fluid: {
-          src: String
+          srcSet: String
         }
       }
     }
@@ -50,12 +50,30 @@ export default function Home({ data, pageContext }: Props) {
           }),
           {
             display: 'grid',
-            height: percent(90),
+            height: percent(65),
             width: percent(100),
             gridTemplateRows: `auto ${percent(15)}`,
           }
         )}
       >
+        <img
+          srcSet={String(data.contentfulInformations.picture.fluid.srcSet)}
+          alt="image"
+          className={style(
+            ...Theme.breakpoints({
+              mobile: {
+                width: percent(100),
+              },
+              desktop: {},
+            }),
+            {
+              gridColumn: '1/3',
+              gridRow: '1/3',
+              height: percent(100),
+              filter: `brightness(${percent(50)})`,
+            }
+          )}
+        />
         <div
           className={style(
             ...Theme.breakpoints({
@@ -71,22 +89,13 @@ export default function Home({ data, pageContext }: Props) {
               ...csstips.vertical,
               gridColumn: '1/3',
               gridRow: '1/3',
-              backgroundImage: `linear-gradient(${Theme.colors.black
-                .fade(0.7)
-                .toString()}, ${Theme.colors.black
-                .fade(0.4)
-                .toString()}), url("${
-                data.contentfulInformations.picture.fluid.src
-              }")`,
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
               color: 'white',
               textAlign: 'center',
               fontSize: Theme.fontSizes.textLarge,
               fontFamily: Theme.fonts.title,
               fontWeight: 500,
               lineHeight: rem(4),
+              position: 'relative',
               $nest: {
                 '& > div:first-child': {
                   paddingBottom: rem(1),
@@ -159,7 +168,7 @@ export const query = graphql`
     contentfulInformations {
       picture {
         fluid {
-          src
+          srcSet
         }
       }
     }
